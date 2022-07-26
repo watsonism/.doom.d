@@ -1,0 +1,2 @@
+change which directory to point to in ~/.doom.d/config.el
+images are contained at a lower depth than the "COPYRIGHT" info files because at the moment I am too pressed for time to add an exception for random-splash-images that stops it from trying to load non-images (i.e., if random-splash-images tries to load a text file, it will error, so it needs to only be able to pull jpeg files, png files, webp files, etc.).

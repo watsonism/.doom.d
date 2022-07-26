@@ -1,0 +1,153 @@
+#+TITLE: Chu's Literate DOOM GNU Emacs Package Configuration
+#+AUTHOR: Chu the Pup
+#+DESCRIPTION: Chu's favorite packages to fondle.
+#+PROPERTY: header-args :tangle yes :lang emacs-lisp
+* Package Config
+** DOOM packages.el preamble
+#+begin_src emacs-lisp
+;; -*- no-byte-compile: t; -*-
+#+end_src
+#+begin_src emacs-lisp
+;; see package.org instead of this file
+#+end_src
+#+begin_src emacs-lisp :tangle no
+;;; $DOOMDIR/packages.el
+
+;; To install a package with Doom you must declare them here and run 'doom sync'
+;; on the command line, then restart Emacs for the changes to take effect -- or
+;; use 'M-x doom/reload'.
+
+;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
+;(package! some-package)
+
+;; To install a package directly from a remote git repo, you must specify a
+;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
+;; https://github.com/raxod502/straight.el#the-recipe-format
+;(package! another-package
+;  :recipe (:host github :repo "username/repo"))
+
+;; If the package you are trying to install does not contain a PACKAGENAME.el
+;; file, or is located in a subdirectory of the repo, you'll need to specify
+;; `:files' in the `:recipe':
+;(package! this-package
+;  :recipe (:host github :repo "username/repo"
+;           :files ("some-file.el" "src/lisp/*.el")))
+
+;; If you'd like to disable a package included with Doom, you can do so here
+;; with the `:disable' property:
+;(package! builtin-package :disable t)
+
+;; You can override the recipe of a built in package without having to specify
+;; all the properties for `:recipe'. These will inherit the rest of its recipe
+;; from Doom or MELPA/ELPA/Emacsmirror:
+;(package! builtin-package :recipe (:nonrecursive t))
+;(package! builtin-package-2 :recipe (:repo "myfork/package"))
+
+;; Specify a `:branch' to install a package from a particular branch or tag.
+;; This is required for some packages whose default branch isn't 'master' (which
+;; our package manager can't deal with; see raxod502/straight.el#279)
+;(package! builtin-package :recipe (:branch "develop"))
+
+;; Use `:pin' to specify a particular commit to install.
+;(package! builtin-package :pin "1a2b3c4d5e")
+
+;; Doom's packages are pinned to a specific commit and updated from release to
+;; release. The `unpin!' macro allows you to unpin single packages...
+;(unpin! pinned-package)
+;; ...or multiple packages
+;(unpin! pinned-package another-pinned-package)
+;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
+;(unpin! t)
+#+end_src
+** Chu's Config
+*** Org mode config
+**** org-bullets
+#+begin_src emacs-lisp
+(package! org-bullets)
+#+end_src
+**** org-download
+lets you copy and paste to and from emacs (images I mean)
+#+begin_src emacs-lisp
+(package! org-download
+  :recipe (:host github
+           :repo "abo-abo/org-download"
+           :files ("org-download.el")))
+#+end_src
+**** org-pandoc-import
+Leverage Pandoc to convert selected file types to org.
+#+begin_src emacs-lisp
+(package! org-pandoc-import
+  :recipe (:host github
+           :repo "tecosaur/org-pandoc-import"
+           :files ("*.el" "filters" "preprocessors")))
+#+end_src
+*** Geiser
+Geiser is used to interact with Scheme Lisp languages more easily.
+Enable schemes in ~/.doom.d/init.el
+#+begin_src emacs-lisp
+(package! geiser)
+#+end_src
+**** Geiser macro stepper
+Allows for macro stepping in Geiser.
+#+begin_src emacs-lisp
+(package! macrostep-geiser)
+#+end_src
+*** Add Structure and Interpretations of Computer Programs to the info menu
+It's a book
+#+begin_src emacs-lisp
+(package! sicp)
+#+end_src
+*** Adds a random splash image to be shown on Emacs startup.
+check in config.org for settings
+#+begin_src emacs-lisp
+(package! random-splash-image)
+#+end_src
+*** Discord active presence
+basically shows off what you're doing in Emacs to folks on Discord, what version/type of Emacs you're running (e.g. Doom, Spacemacs, or whatever).
+#+begin_src emacs-lisp
+(package! elcord)
+#+end_src
+*** Unofficial Telegram client
+#+begin_src emacs-lisp
+(package! telega)
+#+end_src
+*** nov.el
+nov.el provides a major mode for reading EPUB documents (pdfs still work better).
+#+begin_src emacs-lisp
+(package! nov)
+#+end_src
+*** rainbow-blocks
+#+begin_src emacs-lisp
+(package! rainbow-blocks)
+#+end_src
+*** achievements
+#+begin_src emacs-lisp
+(package! achievements)
+#+end_src
+*** common lisp hyperspec
+#+begin_src emacs-lisp
+(package! clhs)
+#+end_src
+*** csv-mode
+#+begin_src emacs-lisp
+(package! csv-mode)
+#+end_src
+*** slime instead of sly :toggleable:
+#+begin_example emacs-lisp
+(package! sly :disable t)
+(package! sly-macrostep :disable t)
+(package! sly-repl-ansi-color :disable t)
+(package! slime)
+#+end_example
+*** currently disabled
+#+begin_src emacs-lisp :tangle no
+;; (package! yasnippet)
+;; (package! common-lisp-snippets)
+;; (package! company-shell)
+;; (package! clippy)
+;; (package! company-quickhelp)
+;; (package! company-quickhelp-terminal)
+;; (package! poly-org)
+;; (package! literate-lisp
+;;  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+#+end_src

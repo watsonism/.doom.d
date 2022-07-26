@@ -1,0 +1,498 @@
+#+TITLE: Chu's Literate DOOM GNU Emacs Configuration
+#+AUTHOR: Chu the Pup
+#+DESCRIPTION: Chu's Literate Doom GNU Emacs configuration
+#+PROPERTY: header-args :tangle yes
+* Org Mode Literate Config (config.org) file
+** Preamble
+Here's the deets:
+*** Org-mode babel tangle setup
+There is a property defined on at the top of this file:
+#+begin_example emacs-lisp
+header-args :tangle yes
+#+end_example
+This tells emacs to automatically tangle (include) all code blocks in this file when generating the code for the config file (config.el), unless the code block explicitly includes =:tangle no= as the above code block does (or if it is a quote or example block).
+*** Usage of quote and example blocks
+This is done in order to debug the configuration on my end. However, the use of quote and example blocks also serves as a way of offering an on/off switch to certain blocks of "settings" (blocks beginning in "#+begin_something" and ending in "#+end_something").
+** DOOM Emacs stuff
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+Doom exposes five (optional) variables for controlling fonts in Doom. Here are the three important ones:
++ `doom-font'
++ `doom-variable-pitch-font'
++ `doom-big-font' -- used for `doom-big-font-mode'; use this for presentations or streaming.
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font string. You generally only need these two:
+#+begin_example
+(setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+#+end_example
+#+begin_example
+(setq doom-variable-pitch-font (font-spec :family "sans" :size 13))
+#+end_example
+There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme' function. This is the default:
+#+begin_example emacs-lisp
+(setq doom-theme 'doom-one)
+#+end_example
+Here are some additional functions/macros that could help you configure Doom:
+- `load!' for loading external *.el files relative to this one
+- `use-package!' for configuring packages
+- `after!' for running code after a package has loaded
+- `add-load-path!' for adding directories to the `load-path', relative to
+  this file. Emacs searches the `load-path' when you load packages with
+  `require' or `use-package'.
+- `map!' for binding new keys
+To get information about any of these functions/macros, move the cursor over the highlighted symbol at press 'K' (non-evil users must press 'C-c c k'). This will open documentation for it, including demos of how they are used.
+You can also try 'gd' (or 'C-c c d') to jump to their definition and see how they are implemented.
+Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
+Some functionality uses this to identify you, e.g. GPG configuration, email clients, file templates and snippets.
+#+begin_example emacs-lisp
+(setq user-full-name "John Doe"
+      user-mail-address "example@donut.arpa")
+#+end_example
+** My Config
+*** Private Configuration
+#+begin_src emacs-lisp
+(setq user-full-name "Caleb Watson"
+      user-mail-address "calebdeanwatson@gmail.com")
+#+end_src
+*** Visual Changes
+**** Fix transparency issues
+Sometimes Emacs has issues with transparency. In my case, it goes unusably transparent if I make use of an Xresources file.
+You can specify frames to use different levels of transparency depending on whether or not you have Emacs focused (active) or if you've clicked off to another application (inactive).
+This broke for me recently. Disabling for now.
+#+begin_example emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+#+end_example
+Or you can just use one number, as so:
+#+begin_example emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha <both>)
+#+end_example
+#+begin_example emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha 96)
+(add-to-list 'default-frame-alist 'alpha 96)
+#+end_example
+**** Hide emphasis markup (e.g. '/...'/ for italics, for bold, etc):
+#+begin_example emacs-lisp
+(setq org-hide-emphasis-markers f)
+#+end_example
+**** Make Org mode look nicer
+#+begin_example emacs-lisp
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-pretty-entities t)
+#+end_example
+**** Random Splash Images
+***** Enable random-splash-image
+For the plugin 'random-splash-image' which displays a random splash image on each Emacs startup.
+#+begin_src emacs-lisp
+(require 'random-splash-image)
+#+end_src
+***** Tell random-splash-image what directory to look for images in.
+#+begin_example emacs-lisp
+(setq random-splash-image-dir
+      (concat
+       (getenv "HOME") "/.local/share/random-splash-image-dir/konsticlub/src/"))
+#+end_example
+#+begin_src emacs-lisp
+(setq random-splash-image-dir
+      (concat
+       (getenv "HOME") "/.doom.d/random-splash-image-dir/chosen-splash-images/src/"))
+#+end_src
+***** TODO Set multiple directories for random-splash-image
+**** Set a random splash image on Emacs startup
+#+begin_src emacs-lisp
+(with-eval-after-load 'random-splash-image
+  (random-splash-image-set))
+#+end_src
+**** Temporarily convert images that Emacs cannot otherwise display
+This will Set Emacs to convert images if they are going to be shown in the GUI. It detects when Emacs is unable to display the image due to lack of compatibility and temporarily converts it, pushing the converted version into memory during display (it gets cleaned up by the garbage collector).
+Note: This is a soft dependency of random-splash-image; in turn, you risk being unable to display certain image file types (notably .webp files) if this is disabled.
+#+begin_src emacs-lisp
+(setq image-use-external-converter t)
+#+end_src
+**** Display line number styling
+This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
+#+begin_src emacs-lisp
+(setq display-line-numbers-type t)
+#+end_src
+*** Custom org directories and files
+If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
+**** Custom org root directory
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq org-directory "~/nextcloud/documents/org/"))
+#+end_src
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq org-agenda-files
+        '("~/nextcloud/documents/org/agenda.org")))
+#+end_src
+**** Custom org journal file location
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq +org-capture-journal-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/journal.org")))
+#+end_src
+**** Custom org notes file location
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq +org-capture-notes-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/notes.org")))
+#+end_src
+**** Custom org projects file location
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq +org-capture-projects-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/projects.org")))
+#+end_src
+*** Download/capture for Org mode
+#+begin_src emacs-lisp
+(require 'org-download)
+(add-hook 'dired-mode-hook 'org-download-enable)
+#+end_src
+*** Geiser settings
+Geiser is an interface to using a proper scheme REPL in a modern Emacs.
+#+begin_example emacs-lisp
+(setq geiser-repl-startup-time 20000)
+(setq geiser-chez-binary "chez")
+#+end_example
+*** Exclude user-specified projects in Projectile
+Set multiple ignored project like this:
+#+begin_example emacs-lisp
+(setq projectile-ignored-projects '("~/.git/"
+                                    "~/.config/"
+                                    "~/Images/Personal/Private/Shirtless-Pictures-of-Steve-Harvey/"))
+#+end_example
+And ensure their removal after projectile finishes loading with this:
+#+begin_example emacs-lisp
+(after! projectile
+  (setq projectile-project-root-files-bottom-up
+        (remove ".git" projectile-project-root-files-bottom-up)))
+#+end_example
+If that doesn't work, try setting ignored projects like this:
+#+begin_example emacs-lisp
+(setq projectile-ignored-projects '("~/.git"))
+#+end_example
+And if /that/ doesn't work, try this:
+#+begin_example emacs-lisp
+(setq projectile-globally-ignored-directories "~/.git")
+#+end_example
+*** ripgrep "rg" fast search to handle projectile project files
+Use the faster searcher to handle project files: ripgrep "rg"
+#+begin_src emacs-lisp
+(when (and (not (executable-find "fd"))
+           (executable-find "rg"))
+  (setq projectile-generic-command
+        (let ((rg-cmd ""))
+          (dolist (dir projectile-globally-ignored-directories)
+            (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+          (setq rg-ignorefile
+                (concat "--ignore-file" " "
+                        (expand-file-name "rg_ignore" user-emacs-directory)))
+          (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile))))
+#+end_src
+*** Load package org-pandoc-import after org loads.
+#+begin_src emacs-lisp
+(use-package! org-pandoc-import :after org)
+#+end_src
+*** Enable active presence on Discord for Emacs
+*Note:* This will tell anyone on your Discord your current activity status in Emacs—with a pretty hefty amount of detail as well. If you feel like this violates your sense of privacy, either keep it wrapped with
+#+begin_quote
+#+begin_example
+...
+#+end_example
+#+end_quote
+or just delete it entirely.
+#+begin_example emacs-lisp
+(elcord-mode)
+#+end_example
+*** LaTeX classes for org mode with org-latex-classes
+Helpful when editing LaTeX documents.
+#+begin_src emacs-lisp
+(with-eval-after-load 'ox-latex
+(add-to-list 'org-latex-classes
+             '("org-plain-latex"
+               "\\documentclass{article}
+           [NO-DEFAULT-PACKAGES]
+           [PACKAGES]
+           [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+#+end_src
+*** A not-stupid way to archive sections of Org documents
+By default, using the Org mode archive function 'org-archive-subtree-default' does not capture the higher-level headings a particular subheading was sitting under when it was archived, which makes a mess of the archive file that gets created. Use this instead!
+#+begin_example emacs-lisp
+;; org-archive-subtree-hierarchical.el
+;;
+;; version 0.2
+;; modified from https://lists.gnu.org/archive/html/emacs-orgmode/2014-08/msg00109.html
+;; modified from https://stackoverflow.com/a/35475878/259187
+;; In orgmode
+;; * A
+;; ** AA
+;; *** AAA
+;; ** AB
+;; *** ABA
+;; Archiving AA will remove the subtree from the original file and create
+;; it like that in archive target:
+;; * AA
+;; ** AAA
+;; And this give you
+;; * A
+;; ** AA
+;; *** AAA
+;;
+;; Install file to your include path and include in your init file with:
+;;
+;;  (require 'org-archive-subtree-hierarchical)
+;;  (setq org-archive-default-command 'org-archive-subtree-hierarchical)
+;;
+#+end_src
+#+begin_src emacs-lisp
+(provide 'org-archive-subtree-hierarchical)
+(require 'org-archive)
+(defun org-archive-subtree-hierarchical--line-content-as-string ()
+  "Returns the content of the current line as a string"
+  (save-excursion
+    (beginning-of-line)
+    (buffer-substring-no-properties
+     (line-beginning-position) (line-end-position))))
+(defun org-archive-subtree-hierarchical--org-child-list ()
+  "This function returns all children of a heading as a list. "
+  (interactive)
+  (save-excursion
+    ;; this only works with org-version > 8.0, since in previous
+    ;; org-mode versions the function (org-outline-level) returns
+    ;; gargabe when the point is not on a heading.
+    (if (= (org-outline-level) 0)
+        (outline-next-visible-heading 1)
+      (org-goto-first-child))
+    (let ((child-list (list (org-archive-subtree-hierarchical--line-content-as-string))))
+      (while (org-goto-sibling)
+        (setq child-list (cons (org-archive-subtree-hierarchical--line-content-as-string) child-list)))
+      child-list)))
+(defun org-archive-subtree-hierarchical--org-struct-subtree ()
+  "This function returns the tree structure in which a subtree
+belongs as a list."
+  (interactive)
+  (let ((archive-tree nil))
+    (save-excursion
+      (while (org-up-heading-safe)
+        (let ((heading
+               (buffer-substring-no-properties
+                (line-beginning-position) (line-end-position))))
+          (if (eq archive-tree nil)
+              (setq archive-tree (list heading))
+            (setq archive-tree (cons heading archive-tree))))))
+    archive-tree))
+(defun org-archive-subtree-hierarchical ()
+  "This function archives a subtree hierarchical"
+  (interactive)
+  (let ((org-tree (org-archive-subtree-hierarchical--org-struct-subtree))
+        (this-buffer (current-buffer))
+        (file (abbreviate-file-name
+               (or (buffer-file-name (buffer-base-buffer))
+                   (error "No file associated to buffer")))))
+    (save-excursion
+      (setq location org-archive-location
+            afile (car (org-archive--compute-location
+		                   (or (org-entry-get nil "ARCHIVE" 'inherit) location)))
+            ;; heading (org-extract-archive-heading location)
+            infile-p (equal file (abbreviate-file-name (or afile ""))))
+      (unless afile
+        (error "Invalid `org-archive-location'"))
+      (if (> (length afile) 0)
+          (setq newfile-p (not (file-exists-p afile))
+                visiting (find-buffer-visiting afile)
+                buffer (or visiting (find-file-noselect afile)))
+        (setq buffer (current-buffer)))
+      (unless buffer
+        (error "Cannot access file \"%s\"" afile))
+      (org-cut-subtree)
+      (set-buffer buffer)
+      (org-mode)
+      (goto-char (point-min))
+      (while (not (equal org-tree nil))
+        (let ((child-list (org-archive-subtree-hierarchical--org-child-list)))
+          (if (member (car org-tree) child-list)
+              (progn
+                (search-forward (car org-tree) nil t)
+                (setq org-tree (cdr org-tree)))
+            (progn
+              (goto-char (point-max))
+              (newline)
+              (org-insert-struct org-tree)
+              (setq org-tree nil)))))
+      (newline)
+      (org-yank)
+      (when (not (eq this-buffer buffer))
+        (save-buffer))
+      (message "Subtree archived %s"
+               (concat "in file: " (abbreviate-file-name afile))))))
+(defun org-insert-struct (struct)
+  "TODO"
+  (interactive)
+  (when struct
+    (insert (car struct))
+    (newline)
+    (org-insert-struct (cdr struct))))
+(defun org-archive-subtree ()
+  (org-archive-subtree-hierarchical))
+#+end_src
+**** Change the default Org archive function to be the not-stupid one
+#+begin_src emacs-lisp
+(setq org-archive-default-command 'org-archive-subtree-hierarchical)
+#+end_src
+*** EPG: Letting Emacs query for GPG passwords
+Allow Emacs to handle queries for gpg passwords.
+Disabled for now.
+#+begin_example emacs-lisp
+(setf epg-pinentry-mode 'loopback)
+(defun pinentry-emacs (desc prompt ok error)
+  (let ((str (read-passwd
+              (concat (replace-regexp-in-string "%22" "\""
+                      (replace-regexp-in-string "%0A" "\n" desc)) prompt ": ")))) str))
+#+end_example
+*** Ensure that blank lines exist between headings and between headings and their contents.
+#+begin_example emacs-lisp
+;;;###autoload
+(defun unpackaged/org-fix-blank-lines (&optional prefix)
+;; "Ensure that blank lines exist between headings and between headings and their contents.
+;; With prefix, operate on whole buffer. Ensures that blank lines
+;; exist after each headings's drawers."
+  (interactive "P")
+  (org-map-entries (lambda ()
+                     (org-with-wide-buffer
+                      ;; `org-map-entries' narrows the buffer, which prevents us from seeing
+                      ;; newlines before the current heading, so we do this part widened.
+                      (while (not (looking-back "\n\n" nil))
+                        ;; Insert blank lines before heading.
+                        (insert "\n")))
+                     (let ((end (org-entry-end-position)))
+                       ;; Insert blank lines before entry content
+                       (forward-line)
+                       (while (and (org-at-planning-p)
+                                   (< (point) (point-max)))
+                         ;; Skip planning lines
+                         (forward-line))
+                       (while (re-search-forward org-drawer-regexp end t)
+                         ;; Skip drawers. You might think that `org-at-drawer-p' would suffice, but
+                         ;; for some reason it doesn't work correctly when operating on hidden text.
+                         ;; This works, taken from `org-agenda-get-some-entry-text'.
+                         (re-search-forward "^[ \t]*:END:.*\n?" end t)
+                         (goto-char (match-end 0)))
+                       (unless (or (= (point) (point-max))
+                                   (org-at-heading-p)
+                                   (looking-at-p "\n"))
+                         (insert "\n"))))
+                   t (if prefix
+                         nil
+                       'tree)))
+#+end_example
+*** Periodic saving of recent files list (recentf):
+Might be broken, disabling for now.
+#+begin_example emacs-lisp
+(run-at-time nil (* 5 60) 'recentf-save-list)
+#+end_example
+*** Ledger
+**** Ledger file location defaults
+#+begin_src emacs-lisp
+(setq ledger-schedule-file "~/nextcloud/documents/ledger/ledger-schedule.ledger")
+#+end_src
+*** EAF (disabled)
+#+begin_example emacs-lisp
+(use-package! eaf
+  :load-path "~/.elisp/emacs-application-framework" ; Change this to wherever you cloned the EAF git repo.
+  :init
+  :custom
+  (eaf-browser-continue-where-left-off t)
+  (eaf-browser-enable-adblocker t)
+  (browse-url-browser-function 'eaf-open-browser) ;; Make EAF Browser my default browser
+  :config
+  (defalias 'browse-web #'eaf-open-browser)
+  (require 'eaf-file-manager)
+  (require 'eaf-music-player)
+  (require 'eaf-image-viewer)
+  (require 'eaf-camera)
+  (require 'eaf-demo)
+  (require 'eaf-airshare)
+  (require 'eaf-terminal)
+  (require 'eaf-markdown-previewer)
+  (require 'eaf-video-player)
+  (require 'eaf-vue-demo)
+  (require 'eaf-file-sender)
+  (require 'eaf-pdf-viewer)
+  (require 'eaf-mindmap)
+  (require 'eaf-netease-cloud-music)
+  (require 'eaf-jupyter)
+  (require 'eaf-org-previewer)
+  (require 'eaf-system-monitor)
+  (require 'eaf-rss-reader)
+  (require 'eaf-file-browser)
+  (require 'eaf-browser)
+  (require 'eaf-org)
+  (require 'eaf-mail)
+  (require 'eaf-git)
+  (when (display-graphic-p)
+    (require 'eaf-all-the-icons))
+  (require 'eaf-evil)
+  (define-key key-translation-map (kbd "SPC")
+    (lambda (prompt)
+      (if (derived-mode-p 'eaf-mode)
+          (pcase eaf--buffer-app-name
+            ("browser" (if  (string= (eaf-call-sync "call_function" eaf--buffer-id "is_focus") "True")
+                           (kbd "SPC")
+                         (kbd eaf-evil-leader-key)))
+            ("pdf-viewer" (kbd eaf-evil-leader-key))
+            ("image-viewer" (kbd eaf-evil-leader-key))
+            (_  (kbd "SPC")))
+        (kbd "SPC")))))
+#+end_example
+*** Achievements in Emacs
+#+begin_src emacs-lisp
+(achievements-mode)
+#+end_src
+*** slime instead of sly :toggleable:
+#+begin_example emacs-lisp
+(setq org-babel-lisp-eval-fn slime-eval) ; this may not be formatted correctly
+#+end_example
+*** Fix DOOM Emacs org-fold issue :patch:
+#+begin_src emacs-lisp
+(setq org-fold-core-style 'overlays)
+#+end_src
+*** Fix DOOM Emacs centaur errors :patch:temporary:
+#+begin_example emacs-lisp
+(centaur-tabs-group-by-projectile-project)
+#+end_example
+*** clhs
+#+begin_src emacs-lisp
+(load "/home/chu/.local/share/quicklisp/clhs-use-local.el" t)
+#+end_src
+*** default emacs browser
+#+begin_src emacs-lisp
+(setq browse-url-generic-program "firefox")
+(setq browse-url-browser-function "firefox")
+(setq browse-url-firefox-program "firefox")
+#+end_src
+
+#+RESULTS:
+: eww
+
+* Referenced
+** [[https://raw.githubusercontent.com/gilbertw1/emacs-literate-starter/master/emacs.org][DOOM Emacs Literate Config]]
+By Gilbert. Thanks, Gilbert.
+** [[https://github.com/alphapapa/unpackaged.el#ensure-blank-lines-between-headings-and-before-contents][alphapapa/unpackaged.el: A collection of useful Emacs Lisp code that isn't substantial enough to be packaged]]
+This is where the 'unpackaged/org-fix-blank-lines' function was sourced from.
+By alphapapa. Thanks, alphapapa.
+** [[https://stackoverflow.com/a/35475878/259187][org-archive-subtree-hierarchical.el v0.2]]
+By [[https://gist.github.com/kepi/2f4acc3cc93403c75fbba5684c5d852d][Kepi]]. Thanks, Kepi.
+*** [[https://lists.gnu.org/archive/html/emacs-orgmode/2014-08/msg00109.html][org-archive-subtree-hierarchical.el v0.1]]
+By [[https://lists.gnu.org/archive/html/emacs-orgmode/2014-08/msg00109.html][Florian Adamsky]]. Thanks, Florian Adamsky.

@@ -1,27 +1,21 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(setq user-full-name "Caleb Watson"
-      user-mail-address "calebdeanwatson@gmail.com")
-
-(require 'random-splash-image)
-
-(setq random-splash-image-dir
-      (concat
-       (getenv "HOME") "/.doom.d/random-splash-image-dir/chosen-splash-images/src/"))
-
-(with-eval-after-load 'random-splash-image
-  (random-splash-image-set))
-
-(setq image-use-external-converter t)
-
-(setq display-line-numbers-type t)
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-pretty-entities t)
 
 (with-eval-after-load 'org
-  (setq org-directory "~/nextcloud/documents/org/"))
+  (setq org-directory
+        (concat
+         (getenv "HOME")
+        "/nextcloud/documents/org/")))
 
 (with-eval-after-load 'org
   (setq org-agenda-files
-        '("~/nextcloud/documents/org/agenda.org")))
+        (list
+         (concat
+          (getenv "HOME")
+          "/nextcloud/documents/org/agenda.org"))))
 
 (with-eval-after-load 'org
   (setq +org-capture-journal-file
@@ -41,19 +35,27 @@
          (getenv "HOME")
          "/nextcloud/documents/org/projects.org")))
 
-(require 'org-download)
-(add-hook 'dired-mode-hook 'org-download-enable)
+(with-eval-after-load 'org
+  (setq org-roam-directory
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/roam/")))
 
-(when (and (not (executable-find "fd"))
-           (executable-find "rg"))
-  (setq projectile-generic-command
-        (let ((rg-cmd ""))
-          (dolist (dir projectile-globally-ignored-directories)
-            (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
-          (setq rg-ignorefile
-                (concat "--ignore-file" " "
-                        (expand-file-name "rg_ignore" user-emacs-directory)))
-          (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile))))
+(setq! org-cite-global-bibliography
+       (list
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/bib.bib")))
+
+(setq citar-bibliography
+       (list
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/bib.bib")))
+
+(with-eval-after-load 'org
+(require 'org-download)
+(add-hook 'dired-mode-hook 'org-download-enable))
 
 (use-package! org-pandoc-import :after org)
 
@@ -162,14 +164,64 @@ belongs as a list."
 
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 
+(setq org-cite-csl-styles-dir "~/nextcloud/documents/org/latex/citeproc-formatters/")
+
+(setq user-full-name "Chu the Pup"
+      user-mail-address "chufilthymutt@gmail.com")
+
+(set-frame-parameter (selected-frame) 'alpha 98)
+
+(setq image-use-external-converter t)
+
+(require 'random-splash-image)
+
+(setq random-splash-image-dir
+      (concat
+       (getenv "HOME") "/.local/share/random-splash-image-dir/chosen-splash-images/src/"))
+
+(with-eval-after-load 'random-splash-image
+  (random-splash-image-set))
+
+(when (and (not (executable-find "fd"))
+           (executable-find "rg"))
+  (setq projectile-generic-command
+        (let ((rg-cmd ""))
+          (dolist (dir projectile-globally-ignored-directories)
+            (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+          (setq rg-ignorefile
+                (concat "--ignore-file" " "
+                        (expand-file-name "rg_ignore" user-emacs-directory)))
+          (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile))))
+
 (setq ledger-schedule-file "~/nextcloud/documents/ledger/ledger-schedule.ledger")
 
 (achievements-mode)
 
-(setq org-fold-core-style 'overlays)
+(defun foo-backward (beg end)
+      "Number sentences in buffer or active region, from end, starting with 1."
+      (interactive (if (use-region-p)
+                       (list (region-beginning) (region-end))
+                     (list (point-min) (point-max))))
+      (let ((ii  0)
+            ins)
+        (save-excursion
+          (goto-char end)
+          (while (> (point) beg)
+            (backward-sentence)
+            (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
+            (search-backward ins nil t)))))
 
-(load "/home/chu/.local/share/quicklisp/clhs-use-local.el" t)
-
-(setq browse-url-generic-program "firefox")
-(setq browse-url-browser-function "firefox")
-(setq browse-url-firefox-program "firefox")
+(defun foo-forward (beg end)
+  "Number sentences in buffer or active region, starting with 1."
+  (interactive (if (use-region-p)
+                   (list (region-beginning) (region-end))
+                 (list (point-min) (point-max))))
+  (let ((ii  0)
+        ins)
+    (save-excursion
+      (goto-char beg)
+      (while (< (point) end)
+        (forward-sentence)
+        (backward-sentence)
+        (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
+        (forward-sentence)))))

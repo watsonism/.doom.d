@@ -86,3 +86,8 @@
 
 (package! literate-lisp
   :recipe (:host github :repo "jingtaozf/literate-lisp"))
+
+(package! grammarly)
+(package! flycheck-grammarly)
+(package! wolfram)
+(package! citeproc)

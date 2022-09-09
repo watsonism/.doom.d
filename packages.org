@@ -128,18 +128,9 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 (package! clhs)
 #+end_src
-
 *** csv-mode
 #+begin_src emacs-lisp
 (package! csv-mode)
-#+end_src
-*** currently disabled
-#+begin_src emacs-lisp :tangle no
-;; (package! company-shell)
-;; (package! clippy)
-;; (package! company-quickhelp)
-;; (package! company-quickhelp-terminal)
-;; (package! poly-org)
 #+end_src
 *** currently testing
 #+begin_src emacs-lisp

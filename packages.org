@@ -59,8 +59,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 #+end_src
-** Chu's Config
-*** Org mode config
+** Chu's package(s)
+*** Org mode packages
 **** org-bullets
 #+begin_src emacs-lisp
 (package! org-bullets)
@@ -81,6 +81,25 @@ Leverage Pandoc to convert selected file types to org.
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
 #+end_src
+**** org-roam
+***** org-roam-ui
+#+begin_src emacs-lisp
+(package! org-roam-ui)
+#+end_src
+**** literate programming packages
+***** literate-lisp
+#+begin_src emacs-lisp
+(package! literate-lisp
+  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+#+end_src
+**** citeproc
+#+begin_src emacs-lisp
+(package! citeproc)
+#+end_src
+**** ox-extra
+#+begin_src emacs-lisp
+(package! ox-extra)
+#+end_src
 *** Geiser
 Geiser is used to interact with Scheme Lisp languages more easily.
 Enable schemes in ~/.doom.d/init.el
@@ -96,6 +115,14 @@ Allows for macro stepping in Geiser.
 It's a book
 #+begin_src emacs-lisp
 (package! sicp)
+#+end_src
+*** common lisp hyperspec
+#+begin_src emacs-lisp
+(package! clhs)
+#+end_src
+*** common lisp yasnippets...snippets
+#+begin_src emacs-lisp
+(package! common-lisp-snippets)
 #+end_src
 *** Add a random splash image to be shown on Emacs startup.
 check in config.org for settings
@@ -124,44 +151,24 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 (package! achievements)
 #+end_src
-*** common lisp hyperspec
-#+begin_src emacs-lisp
-(package! clhs)
-#+end_src
 *** csv-mode
 #+begin_src emacs-lisp
 (package! csv-mode)
 #+end_src
 *** currently testing
-#+begin_src emacs-lisp
-(package! literate-lisp
-  :recipe (:host github :repo "jingtaozf/literate-lisp"))
-#+end_src
-
+*** grammarly
 #+begin_src emacs-lisp
 (package! grammarly)
 #+end_src
-
+**** grammarly in emacs w/ flycheck
 #+begin_src emacs-lisp
 (package! flycheck-grammarly)
 #+end_src
-
+**** grammarly in eamcs w/ flymake
+#+begin_src emacs-lisp
+(package! flymake-grammarly)
+#+end_src
+*** packages to try out when i have time to configure them properly
 #+begin_src emacs-lisp
 (package! wolfram)
-#+end_src
-
-#+begin_src emacs-lisp
-(package! citeproc)
-#+end_src
-
-#+begin_src emacs-lisp
-(package! ox-extra)
-#+end_src
-
-#+begin_src emacs-lisp
-(package! org-roam-ui)
-#+end_src
-
-#+begin_src emacs-lisp
-(package! common-lisp-snippets)
 #+end_src

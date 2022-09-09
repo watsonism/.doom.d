@@ -49,84 +49,45 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
       user-mail-address "example@donut.arpa")
 #+end_example
 ** My Config
-*** Private Configuration
-#+begin_src emacs-lisp
-(setq user-full-name "Caleb Watson"
-      user-mail-address "calebdeanwatson@gmail.com")
-#+end_src
-*** Visual Changes
-**** Fix transparency issues
-Sometimes Emacs has issues with transparency. In my case, it goes unusably transparent if I make use of an Xresources file.
-You can specify frames to use different levels of transparency depending on whether or not you have Emacs focused (active) or if you've clicked off to another application (inactive).
-This broke for me recently. Disabling for now.
+*** Org-Mode
+**** Fix DOOM Emacs org-fold issue :patch:
 #+begin_example emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+(setq org-fold-core-style 'overlays)
 #+end_example
-Or you can just use one number, as so:
+**** Hide emphasis markup (e.g. '/...'/ for italics, for bold, etc)
 #+begin_example emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha <both>)
+(setq org-hide-emphasis-markers nil)
 #+end_example
+but I prefer this function & binding by Micah Elliott with modifications/suggestions by A. Blizzard in response to Lesley Lai.
 #+begin_example emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha 96)
-(add-to-list 'default-frame-alist 'alpha 96)
-#+end_example
-**** Hide emphasis markup (e.g. '/...'/ for italics, for bold, etc):
-#+begin_example emacs-lisp
-(setq org-hide-emphasis-markers f)
+(define-key org-mode-map (kbd "C-c e") 'visible-mode)
 #+end_example
 **** Make Org mode look nicer
-#+begin_example emacs-lisp
+#+begin_src emacs-lisp
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-pretty-entities t)
-#+end_example
-**** Random Splash Images
-***** Enable random-splash-image
-For the plugin 'random-splash-image' which displays a random splash image on each Emacs startup.
-#+begin_src emacs-lisp
-(require 'random-splash-image)
 #+end_src
-***** Tell random-splash-image what directory to look for images in.
-#+begin_example emacs-lisp
-(setq random-splash-image-dir
-      (concat
-       (getenv "HOME") "/.local/share/random-splash-image-dir/konsticlub/src/"))
-#+end_example
-#+begin_src emacs-lisp
-(setq random-splash-image-dir
-      (concat
-       (getenv "HOME") "/.doom.d/random-splash-image-dir/chosen-splash-images/src/"))
-#+end_src
-***** TODO Set multiple directories for random-splash-image
-**** Set a random splash image on Emacs startup
-#+begin_src emacs-lisp
-(with-eval-after-load 'random-splash-image
-  (random-splash-image-set))
-#+end_src
-**** Temporarily convert images that Emacs cannot otherwise display
-This will Set Emacs to convert images if they are going to be shown in the GUI. It detects when Emacs is unable to display the image due to lack of compatibility and temporarily converts it, pushing the converted version into memory during display (it gets cleaned up by the garbage collector).
-Note: This is a soft dependency of random-splash-image; in turn, you risk being unable to display certain image file types (notably .webp files) if this is disabled.
-#+begin_src emacs-lisp
-(setq image-use-external-converter t)
-#+end_src
-**** Display line number styling
-This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
-#+begin_src emacs-lisp
-(setq display-line-numbers-type t)
-#+end_src
-*** Custom org directories and files
+**** Custom org directories and files :org:
 If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
-**** Custom org root directory
+**** Custom org root directory :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
-  (setq org-directory "~/nextcloud/documents/org/"))
+  (setq org-directory
+        (concat
+         (getenv "HOME")
+        "/nextcloud/documents/org/")))
 #+end_src
+**** Custom org agenda file
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-agenda-files
-        '("~/nextcloud/documents/org/agenda.org")))
+        (list
+         (concat
+          (getenv "HOME")
+          "/nextcloud/documents/org/agenda.org"))))
 #+end_src
-**** Custom org journal file location
+**** Custom org journal file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-journal-file
@@ -134,7 +95,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/journal.org")))
 #+end_src
-**** Custom org notes file location
+**** Custom org notes file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-notes-file
@@ -142,7 +103,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/notes.org")))
 #+end_src
-**** Custom org projects file location
+**** Custom org projects file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-projects-file
@@ -150,68 +111,49 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/projects.org")))
 #+end_src
-*** Download/capture for Org mode
+**** Org roam v2 directories and files
 #+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq org-roam-directory
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/roam/")))
+#+end_src
+**** Org-Cite (oc.el) bibliography
+#+begin_src emacs-lisp
+(setq! org-cite-global-bibliography
+       (list
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/bib.bib")))
+#+end_src
+
+#+RESULTS:
+| /home/chu/nextcloud/documents/org/bib.bib |
+
+**** Citar bibliography
+#+begin_src emacs-lisp
+(setq citar-bibliography
+       (list
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/bib.bib")))
+#+end_src
+
+#+RESULTS:
+| /home/chu/nextcloud/documents/org/bib.bib |
+
+**** Download/capture for Org mode
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
 (require 'org-download)
-(add-hook 'dired-mode-hook 'org-download-enable)
+(add-hook 'dired-mode-hook 'org-download-enable))
 #+end_src
-*** Geiser settings
-Geiser is an interface to using a proper scheme REPL in a modern Emacs.
-#+begin_example emacs-lisp
-(setq geiser-repl-startup-time 20000)
-(setq geiser-chez-binary "chez")
-#+end_example
-*** Exclude user-specified projects in Projectile
-Set multiple ignored project like this:
-#+begin_example emacs-lisp
-(setq projectile-ignored-projects '("~/.git/"
-                                    "~/.config/"
-                                    "~/Images/Personal/Private/Shirtless-Pictures-of-Steve-Harvey/"))
-#+end_example
-And ensure their removal after projectile finishes loading with this:
-#+begin_example emacs-lisp
-(after! projectile
-  (setq projectile-project-root-files-bottom-up
-        (remove ".git" projectile-project-root-files-bottom-up)))
-#+end_example
-If that doesn't work, try setting ignored projects like this:
-#+begin_example emacs-lisp
-(setq projectile-ignored-projects '("~/.git"))
-#+end_example
-And if /that/ doesn't work, try this:
-#+begin_example emacs-lisp
-(setq projectile-globally-ignored-directories "~/.git")
-#+end_example
-*** ripgrep "rg" fast search to handle projectile project files
-Use the faster searcher to handle project files: ripgrep "rg"
-#+begin_src emacs-lisp
-(when (and (not (executable-find "fd"))
-           (executable-find "rg"))
-  (setq projectile-generic-command
-        (let ((rg-cmd ""))
-          (dolist (dir projectile-globally-ignored-directories)
-            (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
-          (setq rg-ignorefile
-                (concat "--ignore-file" " "
-                        (expand-file-name "rg_ignore" user-emacs-directory)))
-          (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile))))
-#+end_src
-*** Load package org-pandoc-import after org loads.
+**** Load package org-pandoc-import after org loads.
 #+begin_src emacs-lisp
 (use-package! org-pandoc-import :after org)
 #+end_src
-*** Enable active presence on Discord for Emacs
-*Note:* This will tell anyone on your Discord your current activity status in Emacs—with a pretty hefty amount of detail as well. If you feel like this violates your sense of privacy, either keep it wrapped with
-#+begin_quote
-#+begin_example
-...
-#+end_example
-#+end_quote
-or just delete it entirely.
-#+begin_example emacs-lisp
-(elcord-mode)
-#+end_example
-*** LaTeX classes for org mode with org-latex-classes
+**** LaTeX classes for org mode with org-latex-classes
 Helpful when editing LaTeX documents.
 #+begin_src emacs-lisp
 (with-eval-after-load 'ox-latex
@@ -227,7 +169,7 @@ Helpful when editing LaTeX documents.
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 #+end_src
-*** A not-stupid way to archive sections of Org documents
+**** A not-stupid way to archive sections of Org documents
 By default, using the Org mode archive function 'org-archive-subtree-default' does not capture the higher-level headings a particular subheading was sitting under when it was archived, which makes a mess of the archive file that gets created. Use this instead!
 #+begin_example emacs-lisp
 ;; org-archive-subtree-hierarchical.el
@@ -255,7 +197,8 @@ By default, using the Org mode archive function 'org-archive-subtree-default' do
 ;;  (require 'org-archive-subtree-hierarchical)
 ;;  (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 ;;
-#+end_src
+#+end_example
+
 #+begin_src emacs-lisp
 (provide 'org-archive-subtree-hierarchical)
 (require 'org-archive)
@@ -351,17 +294,7 @@ belongs as a list."
 #+begin_src emacs-lisp
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 #+end_src
-*** EPG: Letting Emacs query for GPG passwords
-Allow Emacs to handle queries for gpg passwords.
-Disabled for now.
-#+begin_example emacs-lisp
-(setf epg-pinentry-mode 'loopback)
-(defun pinentry-emacs (desc prompt ok error)
-  (let ((str (read-passwd
-              (concat (replace-regexp-in-string "%22" "\""
-                      (replace-regexp-in-string "%0A" "\n" desc)) prompt ": ")))) str))
-#+end_example
-*** Ensure that blank lines exist between headings and between headings and their contents.
+**** Ensure that blank lines exist between headings and between headings and their contents.
 #+begin_example emacs-lisp
 ;;;###autoload
 (defun unpackaged/org-fix-blank-lines (&optional prefix)
@@ -396,6 +329,138 @@ Disabled for now.
                    t (if prefix
                          nil
                        'tree)))
+#+end_example
+*** LaTeX
+**** CiteProc Formatter File Directory
+For MLA formatting of LaTeX papers.
+#+begin_src emacs-lisp
+(setq org-cite-csl-styles-dir "~/nextcloud/documents/org/latex/citeproc-formatters/")
+#+end_src
+*** Private Configuration
+#+begin_src emacs-lisp
+(setq user-full-name "Chu the Pup"
+      user-mail-address "chufilthymutt@gmail.com")
+#+end_src
+*** Visual Changes
+**** Fix transparency issues
+Sometimes Emacs has issues with transparency. In my case, it goes unusably transparent if I make use of an Xresources file.
+
+You can specify frames to use different levels of transparency depending on whether or not you have Emacs focused (active) or if you've clicked off to another application (inactive).
+
+#+begin_example emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+#+end_example
+
+Or you can just use one number, as so:
+
+#+begin_example emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha <both>)
+#+end_example
+
+Here's the settings I currently use:
+
+#+begin_src emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha 98)
+#+end_src
+
+**** Temporarily convert images that Emacs cannot otherwise display
+This will Set Emacs to convert images if they are going to be shown in the GUI. It detects when Emacs is unable to display the image due to lack of compatibility and temporarily converts it, pushing the converted version into memory during display (it gets cleaned up by the garbage collector).
+Note: This is a soft dependency of random-splash-image; in turn, you risk being unable to display certain image file types (notably .webp files) if this is disabled.
+#+begin_src emacs-lisp
+(setq image-use-external-converter t)
+#+end_src
+**** Random Splash Images
+***** Enable random-splash-image
+For the plugin 'random-splash-image' which displays a random splash image on each Emacs startup.
+#+begin_src emacs-lisp
+(require 'random-splash-image)
+#+end_src
+***** Tell random-splash-image what directory to look for images in.
+#+begin_example emacs-lisp
+(setq random-splash-image-dir
+      (concat
+       (getenv "HOME") "/.local/share/random-splash-image-dir/konsticlub/src/"))
+#+end_example
+#+begin_src emacs-lisp
+(setq random-splash-image-dir
+      (concat
+       (getenv "HOME") "/.local/share/random-splash-image-dir/chosen-splash-images/src/"))
+#+end_src
+***** TODO Set multiple directories for random-splash-image
+**** Set a random splash image on Emacs startup
+#+begin_src emacs-lisp
+(with-eval-after-load 'random-splash-image
+  (random-splash-image-set))
+#+end_src
+**** Display line number styling
+This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
+
+Disabled since Doom is handling this okay now without it.
+
+#+begin_example emacs-lisp
+(setq display-line-numbers t)
+#+end_example
+*** Geiser settings
+Geiser is an interface to using a proper scheme REPL in a modern Emacs.
+#+begin_example emacs-lisp
+(setq geiser-repl-startup-time 20000)
+(setq geiser-chez-binary "chez")
+#+end_example
+*** Exclude user-specified projects in Projectile
+Set multiple ignored project like this:
+#+begin_example emacs-lisp
+(setq projectile-ignored-projects '("~/.git/"
+                                    "~/.config/"
+                                    "~/Images/Personal/Private/Shirtless-Pictures-of-Steve-Harvey/"))
+#+end_example
+And ensure their removal after projectile finishes loading with this:
+#+begin_example emacs-lisp
+(after! projectile
+  (setq projectile-project-root-files-bottom-up
+        (remove ".git" projectile-project-root-files-bottom-up)))
+#+end_example
+If that doesn't work, try setting ignored projects like this:
+#+begin_example emacs-lisp
+(setq projectile-ignored-projects '("~/.git"))
+#+end_example
+And if /that/ doesn't work, try this:
+#+begin_example emacs-lisp
+(setq projectile-globally-ignored-directories "~/.git")
+#+end_example
+*** ripgrep "rg" fast search to handle projectile project files
+Use the faster searcher to handle project files: ripgrep "rg"
+#+begin_src emacs-lisp
+(when (and (not (executable-find "fd"))
+           (executable-find "rg"))
+  (setq projectile-generic-command
+        (let ((rg-cmd ""))
+          (dolist (dir projectile-globally-ignored-directories)
+            (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+          (setq rg-ignorefile
+                (concat "--ignore-file" " "
+                        (expand-file-name "rg_ignore" user-emacs-directory)))
+          (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile))))
+#+end_src
+*** Enable active presence on Discord for Emacs
+*Note:* This will tell anyone on your Discord your current activity status in Emacs—with a pretty hefty amount of detail as well. If you feel like this violates your sense of privacy, either keep it wrapped with
+#+begin_quote
+#+begin_example
+...
+#+end_example
+#+end_quote
+or just delete it entirely.
+#+begin_example emacs-lisp
+(elcord-mode)
+#+end_example
+*** EPG: Letting Emacs query for GPG passwords
+Allow Emacs to handle queries for gpg passwords.
+Disabled for now.
+#+begin_example emacs-lisp
+(setf epg-pinentry-mode 'loopback)
+(defun pinentry-emacs (desc prompt ok error)
+  (let ((str (read-passwd
+              (concat (replace-regexp-in-string "%22" "\""
+                      (replace-regexp-in-string "%0A" "\n" desc)) prompt ": ")))) str))
 #+end_example
 *** Periodic saving of recent files list (recentf):
 Might be broken, disabling for now.
@@ -460,31 +525,48 @@ Might be broken, disabling for now.
 #+begin_src emacs-lisp
 (achievements-mode)
 #+end_src
-*** slime instead of sly :toggleable:
-#+begin_example emacs-lisp
-(setq org-babel-lisp-eval-fn slime-eval) ; this may not be formatted correctly
-#+end_example
-*** Fix DOOM Emacs org-fold issue :patch:
-#+begin_src emacs-lisp
-(setq org-fold-core-style 'overlays)
-#+end_src
 *** Fix DOOM Emacs centaur errors :patch:temporary:
 #+begin_example emacs-lisp
 (centaur-tabs-group-by-projectile-project)
 #+end_example
-*** clhs
+*** Grammarly support in flycheck
+#+begin_example emacs-lisp
+(with-eval-after-load 'flycheck
+  (flycheck-grammarly-setup))
+#+end_example
+*** Insert increasing numbers before sentences
+by [[https://emacs.stackexchange.com/users/105/drew][Drew]] on StackOverflow
+[[https://emacs.stackexchange.com/questions/14695/how-can-emacs-number-the-sentences-in-a-text][How can Emacs number the sentences in a text? - Emacs Stack Exchange]]
 #+begin_src emacs-lisp
-(load "/home/chu/.local/share/quicklisp/clhs-use-local.el" t)
-#+end_src
-*** default emacs browser
-#+begin_src emacs-lisp
-(setq browse-url-generic-program "firefox")
-(setq browse-url-browser-function "firefox")
-(setq browse-url-firefox-program "firefox")
-#+end_src
+(defun foo-backward (beg end)
+      "Number sentences in buffer or active region, from end, starting with 1."
+      (interactive (if (use-region-p)
+                       (list (region-beginning) (region-end))
+                     (list (point-min) (point-max))))
+      (let ((ii  0)
+            ins)
+        (save-excursion
+          (goto-char end)
+          (while (> (point) beg)
+            (backward-sentence)
+            (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
+            (search-backward ins nil t)))))
 
-#+RESULTS:
-: eww
+(defun foo-forward (beg end)
+  "Number sentences in buffer or active region, starting with 1."
+  (interactive (if (use-region-p)
+                   (list (region-beginning) (region-end))
+                 (list (point-min) (point-max))))
+  (let ((ii  0)
+        ins)
+    (save-excursion
+      (goto-char beg)
+      (while (< (point) end)
+        (forward-sentence)
+        (backward-sentence)
+        (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
+        (forward-sentence)))))
+#+end_src
 
 * Referenced
 ** [[https://raw.githubusercontent.com/gilbertw1/emacs-literate-starter/master/emacs.org][DOOM Emacs Literate Config]]

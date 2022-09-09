@@ -7,11 +7,11 @@
 #+begin_src emacs-lisp
 ;; -*- no-byte-compile: t; -*-
 #+end_src
+
 #+begin_src emacs-lisp
-;; see package.org instead of this file
-#+end_src
-#+begin_src emacs-lisp :tangle no
 ;;; $DOOMDIR/packages.el
+
+;; see package.org instead of this file
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
@@ -97,7 +97,7 @@ It's a book
 #+begin_src emacs-lisp
 (package! sicp)
 #+end_src
-*** Adds a random splash image to be shown on Emacs startup.
+*** Add a random splash image to be shown on Emacs startup.
 check in config.org for settings
 #+begin_src emacs-lisp
 (package! random-splash-image)
@@ -111,12 +111,12 @@ basically shows off what you're doing in Emacs to folks on Discord, what version
 #+begin_src emacs-lisp
 (package! telega)
 #+end_src
-*** nov.el
+*** Nov.el
 nov.el provides a major mode for reading EPUB documents (pdfs still work better).
 #+begin_src emacs-lisp
 (package! nov)
 #+end_src
-*** rainbow-blocks
+*** Rainbow-blocks
 #+begin_src emacs-lisp
 (package! rainbow-blocks)
 #+end_src
@@ -128,26 +128,49 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 (package! clhs)
 #+end_src
+
 *** csv-mode
 #+begin_src emacs-lisp
 (package! csv-mode)
 #+end_src
-*** slime instead of sly :toggleable:
-#+begin_example emacs-lisp
-(package! sly :disable t)
-(package! sly-macrostep :disable t)
-(package! sly-repl-ansi-color :disable t)
-(package! slime)
-#+end_example
 *** currently disabled
 #+begin_src emacs-lisp :tangle no
-;; (package! yasnippet)
-;; (package! common-lisp-snippets)
 ;; (package! company-shell)
 ;; (package! clippy)
 ;; (package! company-quickhelp)
 ;; (package! company-quickhelp-terminal)
 ;; (package! poly-org)
-;; (package! literate-lisp
-;;  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+#+end_src
+*** currently testing
+#+begin_src emacs-lisp
+(package! literate-lisp
+  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+#+end_src
+
+#+begin_src emacs-lisp
+(package! grammarly)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! flycheck-grammarly)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! wolfram)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! citeproc)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! ox-extra)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! org-roam-ui)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! common-lisp-snippets)
 #+end_src

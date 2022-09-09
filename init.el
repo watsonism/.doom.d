@@ -21,9 +21,12 @@
        ;;layout              ; auie,ctsrnm is the superior home row
 
        :completion
+       ;;(company
+       ;;+childframe)        ; the ultimate code completion backend
        company             ; the ultimate code completion backend
        ;;helm                ; the *other* search engine for love and life
        ;;ido                 ; the other *other* search engine...
+       ;;(ivy +prescient +childframe +icons)                 ; a search engine for love and life
        ;;ivy                 ; a search engine for love and life
        vertico             ; the search engine of the future
 
@@ -35,7 +38,7 @@
        (emoji +unicode)    ; 🙂
        hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra               ;
-       ;;indent-guides       ; highlighted indent columns
+       indent-guides       ; highlighted indent columns
        ligatures           ; ligatures and symbols to make your code pretty again
        minimap             ; show a map of the code on the side
        modeline            ; snazzy, Atom-inspired modeline, plus API
@@ -43,7 +46,7 @@
        neotree             ; a project drawer, like NERDTree for vim
        ophints             ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       tabs                ; a tab bar for Emacs
+       ;;tabs                ; a tab bar for Emacs
        treemacs            ; a project drawer, like neotree but cooler
        unicode             ; extended unicode support for various languages
        vc-gutter           ; vcs diff in the fringe
@@ -61,7 +64,7 @@
        ;;lispy               ; vim for lisp, for people who don't like vim
        multiple-cursors    ; editing in many places at once
        ;;objed               ; uncommenting breaks evil, so like...don't do that
-       parinfer            ; turn lisp into python, sort of
+       ;;parinfer            ; turn lisp into python, sort of
        rotate-text         ; cycle region at point between text candidates
        snippets            ; my elves. They type so I don't have to
        word-wrap           ; soft wrapping with language-aware indent
@@ -80,17 +83,17 @@
        vterm               ; the best terminal emulation in Emacs
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
+       ;;(syntax +childframe) ; tasing you for every semicolon you forget
        ;;(spell +flyspell) ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible             ; planning to win
-       ;;biblio              ; Writes a PhD for you (citation needed)
+       biblio              ; Writes a PhD for you (citation needed)
        ;;debugger            ; FIXME stepping through code, to help you add bugs
        direnv
        docker
-       editorconfig        ; let someone else argue about tabs vs spaces
+       ;;editorconfig        ; let someone else argue about tabs vs spaces
        ;;ein                 ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        gist                ; interacting with github gists
@@ -143,7 +146,7 @@
        ;;javascript          ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia               ; a better, faster MATLAB
        ;;kotlin              ; a better, slicker Java(Script)
-       ;;latex               ; writing papers in Emacs has never been so fun
+       (latex +latexmk +lsp)              ; writing papers in Emacs has never been so fun
        ;;lean                ; for folks with too much to prove
        ledger              ; be audit you can be
        ;;lua                 ; one-based indices? one-based indices
@@ -154,32 +157,30 @@
        (org
         +dragndrop
         +pomodoro
-        +present
-        +roam)     ; organize your plain life in plain text
+        ;;+present
+        +roam2)            ; organize your plain life in plain text
        ;;php                 ; perl's insecure younger brother
        ;;plantuml            ; diagrams for confusing people more
        ;;purescript          ; javascript, but functional
        ;;python              ; beautiful is better than ugly
        ;;qt                  ; the 'cutest' gui framework ever
-       ;;racket              ; a DSL for DSLs
+       (racket +lsp +xp)              ; a DSL for DSLs
        ;;raku                ; the artist formerly known as perl6
        ;;rest                ; Emacs as a REST client
        ;;rst                 ; ReST in peace
        ;;(ruby +rails)       ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        ;;rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala               ; java, but good
-       ;;(scheme             ; a fully conniving family of lisps
-       ;;+guile
-       ;;+chicken
-       ;;+racket
-       ;;+mit
+       (scheme             ; a fully conniving family of lisps
+       +guile
+       +chicken
+       +mit
        ;;+chez
        ;;+chibi
        ;;+gauche
-       ;;)
+       )
        (sh                 ; she sells {ba,z,fi}sh shells on the C xor
         +lsp)
-       
        ;;sml
        ;;solidity            ; do you need a blockchain? No.
        ;;swift               ; who asked for emoji variables?
@@ -197,9 +198,9 @@
        calendar            ; time
        ;;emms
        everywhere          ; *leave* Emacs!? You must be joking
-       irc                 ; how neckbeards socialize
-       (rss +org)          ; emacs as an RSS reader
-       twitter             ; twitter client https://twitter.com/vnought
+       ;;irc                 ; how neckbeards socialize
+       ;;(rss +org)          ; emacs as an RSS reader
+       ;;twitter             ; twitter client https://twitter.com/vnought
 
        :config
        literate

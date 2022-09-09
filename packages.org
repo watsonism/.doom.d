@@ -96,10 +96,6 @@ Leverage Pandoc to convert selected file types to org.
 #+begin_src emacs-lisp
 (package! citeproc)
 #+end_src
-**** ox-extra
-#+begin_src emacs-lisp
-(package! ox-extra)
-#+end_src
 *** Geiser
 Geiser is used to interact with Scheme Lisp languages more easily.
 Enable schemes in ~/.doom.d/init.el
@@ -116,18 +112,18 @@ It's a book
 #+begin_src emacs-lisp
 (package! sicp)
 #+end_src
-*** common lisp hyperspec
-#+begin_src emacs-lisp
-(package! clhs)
-#+end_src
-*** common lisp yasnippets...snippets
-#+begin_src emacs-lisp
-(package! common-lisp-snippets)
-#+end_src
 *** Add a random splash image to be shown on Emacs startup.
 check in config.org for settings
 #+begin_src emacs-lisp
 (package! random-splash-image)
+#+end_src
+*** common lisp hyperspec
+#+begin_src emacs-lisp
+(package! clhs)
+#+end_src
+*** common lisp yasnippets snippets
+#+begin_src emacs-lisp
+(package! common-lisp-snippets)
 #+end_src
 *** Discord active presence
 basically shows off what you're doing in Emacs to folks on Discord, what version/type of Emacs you're running (e.g. Doom, Spacemacs, or whatever).
@@ -151,11 +147,10 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 (package! achievements)
 #+end_src
-*** csv-mode
+*** csv-mode for csv file support
 #+begin_src emacs-lisp
 (package! csv-mode)
 #+end_src
-*** currently testing
 *** grammarly
 #+begin_src emacs-lisp
 (package! grammarly)
@@ -169,6 +164,8 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 (package! flymake-grammarly)
 #+end_src
 *** packages to try out when i have time to configure them properly
+**** wolfram alpha search in emacs
 #+begin_src emacs-lisp
 (package! wolfram)
 #+end_src
+*** packages im currently testing (sandbox)

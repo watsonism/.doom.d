@@ -2,6 +2,7 @@
 #+AUTHOR: Chu the Pup
 #+DESCRIPTION: Chu's Literate Doom GNU Emacs configuration
 #+PROPERTY: header-args :tangle yes
+#+startup: content
 * Org Mode Literate Config (config.org) file
 ** Preamble
 Here's the deets:
@@ -49,6 +50,10 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
       user-mail-address "example@donut.arpa")
 #+end_example
 ** My Config
+*** Trash instead of delete
+#+begin_src emacs-lisp
+(setq delete-by-moving-to-trash t)
+#+end_src
 *** Org-Mode
 **** Fix DOOM Emacs org-fold issue :patch:
 #+begin_example emacs-lisp
@@ -119,6 +124,20 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/")))
 #+end_src
+**** Org id custom id location
+#+begin_src emacs-lisp
+(setq org-id-locations-file
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/.orgids"))
+#+end_src
+**** Org-attach custom directory
+#+begin_src emacs-lisp
+(setq org-attach-id-dir
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/.attach/"))
+#+end_src
 **** Org-Cite (oc.el) bibliography
 #+begin_src emacs-lisp
 (setq! org-cite-global-bibliography
@@ -127,10 +146,6 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/bib.bib")))
 #+end_src
-
-#+RESULTS:
-| /home/chu/nextcloud/documents/org/bib.bib |
-
 **** Citar bibliography
 #+begin_src emacs-lisp
 (setq citar-bibliography
@@ -140,15 +155,18 @@ If you use `org' and don't want your org files in the default location below, ch
          "/nextcloud/documents/org/bib.bib")))
 #+end_src
 
-#+RESULTS:
-| /home/chu/nextcloud/documents/org/bib.bib |
-
 **** Download/capture for Org mode
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
 (require 'org-download)
 (add-hook 'dired-mode-hook 'org-download-enable))
 #+end_src
+**** TODO org-download image with attr tag added automatically when images are downloaded
+#+begin_src emacs-lisp
+(setq org-image-actual-width 500)
+#+end_src
+Set in an attempt to stop images being absolutely HUGE after inlining them in an org document with org-download.
+
 **** Load package org-pandoc-import after org loads.
 #+begin_src emacs-lisp
 (use-package! org-pandoc-import :after org)
@@ -334,7 +352,10 @@ belongs as a list."
 **** CiteProc Formatter File Directory
 For MLA formatting of LaTeX papers.
 #+begin_src emacs-lisp
-(setq org-cite-csl-styles-dir "~/nextcloud/documents/org/latex/citeproc-formatters/")
+(setq org-cite-csl-styles-dir
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/latex/citeproc-formatters/"))
 #+end_src
 *** Private Configuration
 #+begin_src emacs-lisp
@@ -406,6 +427,13 @@ Geiser is an interface to using a proper scheme REPL in a modern Emacs.
 (setq geiser-repl-startup-time 20000)
 (setq geiser-chez-binary "chez")
 #+end_example
+*** Skeletor settings
+#+begin_src emacs-lisp
+(setq skeletor-project-directory
+      (concat
+       (getenv "HOME")
+       "/nextcloud/projects/"))
+#+end_src
 *** Exclude user-specified projects in Projectile
 Set multiple ignored project like this:
 #+begin_example emacs-lisp

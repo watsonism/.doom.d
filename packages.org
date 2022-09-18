@@ -124,11 +124,11 @@ check in config.org for settings
 #+end_src
 *** common lisp hyperspec
 #+begin_src emacs-lisp
-(package! clhs)
+;;(package! clhs)
 #+end_src
 *** common lisp yasnippets snippets
 #+begin_src emacs-lisp
-(package! common-lisp-snippets)
+;;(package! common-lisp-snippets)
 #+end_src
 *** Discord active presence
 basically shows off what you're doing in Emacs to folks on Discord, what version/type of Emacs you're running (e.g. Doom, Spacemacs, or whatever).
@@ -154,27 +154,27 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+end_src
 *** csv-mode for csv file support
 #+begin_src emacs-lisp
-(package! csv-mode)
+;;(package! csv-mode)
 #+end_src
 *** grammarly
 #+begin_src emacs-lisp
-(package! grammarly)
+;;(package! grammarly)
 #+end_src
 **** grammarly in emacs w/ flycheck
 #+begin_src emacs-lisp
-(package! flycheck-grammarly)
+;;(package! flycheck-grammarly)
 #+end_src
 **** grammarly in eamcs w/ flymake
 #+begin_src emacs-lisp
-(package! flymake-grammarly)
+;;(package! flymake-grammarly)
 #+end_src
 *** skeletor - project skeletons
 #+begin_src emacs-lisp
-(package! skeletor)
+;;(package! skeletor)
 #+end_src
 *** packages to try out when i have time to configure them properly
 **** wolfram alpha search in emacs
 #+begin_src emacs-lisp
-(package! wolfram)
+;;(package! wolfram)
 #+end_src
 *** packages im currently testing (sandbox)

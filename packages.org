@@ -64,13 +64,8 @@
 #+begin_src emacs-lisp
 (package! firefox-lock-deleter.el
   :recipe (:host github :repo "chumutt/firefox-lock-deleter.el"
-           :files ("firefox-lock-deleter.el" "src/lisp/*.el")))
-
+           :files ("firefox-lock-deleter.el")))
 #+end_src
-
-#+RESULTS:
-| firefox-lock-deleter.el | :modules | ((:user . ##) (:user . modules)) | :recipe | (:host github :repo chumutt/firefox-lock-deleter.el :files (firefox-lock-deleter.el src/lisp/*.el)) |
-
 *** Org mode packages
 **** org-bullets
 #+begin_src emacs-lisp

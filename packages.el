@@ -50,6 +50,9 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! firefox-lock-deleter
+  :recipe (:host github :repo "chumutt/firefox-lock-deleter.el"))
+
 (package! org-bullets)
 
 (package! org-download
@@ -62,6 +65,13 @@
            :repo "tecosaur/org-pandoc-import"
            :files ("*.el" "filters" "preprocessors")))
 
+(package! org-roam-ui)
+
+(package! literate-lisp
+  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+
+(package! citeproc)
+
 (package! geiser)
 
 (package! macrostep-geiser)
@@ -69,6 +79,10 @@
 (package! sicp)
 
 (package! random-splash-image)
+
+(package! clhs)
+
+(package! common-lisp-snippets)
 
 (package! elcord)
 
@@ -80,14 +94,14 @@
 
 (package! achievements)
 
-(package! clhs)
-
 (package! csv-mode)
 
-(package! literate-lisp
-  :recipe (:host github :repo "jingtaozf/literate-lisp"))
-
 (package! grammarly)
+
 (package! flycheck-grammarly)
+
+(package! flymake-grammarly)
+
+(package! skeletor)
+
 (package! wolfram)
-(package! citeproc)

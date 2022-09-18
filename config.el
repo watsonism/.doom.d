@@ -1,5 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+(setq delete-by-moving-to-trash t)
+
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-pretty-entities t)
@@ -41,6 +43,16 @@
          (getenv "HOME")
          "/nextcloud/documents/org/roam/")))
 
+(setq org-id-locations-file
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/.orgids"))
+
+(setq org-attach-id-dir
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/.attach/"))
+
 (setq! org-cite-global-bibliography
        (list
         (concat
@@ -56,6 +68,8 @@
 (with-eval-after-load 'org
 (require 'org-download)
 (add-hook 'dired-mode-hook 'org-download-enable))
+
+(setq org-image-actual-width 500)
 
 (use-package! org-pandoc-import :after org)
 
@@ -164,7 +178,10 @@ belongs as a list."
 
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 
-(setq org-cite-csl-styles-dir "~/nextcloud/documents/org/latex/citeproc-formatters/")
+(setq org-cite-csl-styles-dir
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/latex/citeproc-formatters/"))
 
 (setq user-full-name "Chu the Pup"
       user-mail-address "chufilthymutt@gmail.com")
@@ -181,6 +198,11 @@ belongs as a list."
 
 (with-eval-after-load 'random-splash-image
   (random-splash-image-set))
+
+(setq skeletor-project-directory
+      (concat
+       (getenv "HOME")
+       "/nextcloud/projects/"))
 
 (when (and (not (executable-find "fd"))
            (executable-find "rg"))

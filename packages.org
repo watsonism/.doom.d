@@ -178,3 +178,7 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 ;;(package! wolfram)
 #+end_src
 *** packages im currently testing (sandbox)
+*** simple-httpd
+#+begin_src emacs-lisp
+(package! simple-httpd)
+#+end_src

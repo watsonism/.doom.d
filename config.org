@@ -500,102 +500,15 @@ Might be broken, disabling for now.
 #+begin_src emacs-lisp
 (setq ledger-schedule-file "~/nextcloud/documents/ledger/ledger-schedule.ledger")
 #+end_src
-*** EAF (disabled)
-#+begin_example emacs-lisp
-(use-package! eaf
-  :load-path "~/.elisp/emacs-application-framework" ; Change this to wherever you cloned the EAF git repo.
-  :init
-  :custom
-  (eaf-browser-continue-where-left-off t)
-  (eaf-browser-enable-adblocker t)
-  (browse-url-browser-function 'eaf-open-browser) ;; Make EAF Browser my default browser
-  :config
-  (defalias 'browse-web #'eaf-open-browser)
-  (require 'eaf-file-manager)
-  (require 'eaf-music-player)
-  (require 'eaf-image-viewer)
-  (require 'eaf-camera)
-  (require 'eaf-demo)
-  (require 'eaf-airshare)
-  (require 'eaf-terminal)
-  (require 'eaf-markdown-previewer)
-  (require 'eaf-video-player)
-  (require 'eaf-vue-demo)
-  (require 'eaf-file-sender)
-  (require 'eaf-pdf-viewer)
-  (require 'eaf-mindmap)
-  (require 'eaf-netease-cloud-music)
-  (require 'eaf-jupyter)
-  (require 'eaf-org-previewer)
-  (require 'eaf-system-monitor)
-  (require 'eaf-rss-reader)
-  (require 'eaf-file-browser)
-  (require 'eaf-browser)
-  (require 'eaf-org)
-  (require 'eaf-mail)
-  (require 'eaf-git)
-  (when (display-graphic-p)
-    (require 'eaf-all-the-icons))
-  (require 'eaf-evil)
-  (define-key key-translation-map (kbd "SPC")
-    (lambda (prompt)
-      (if (derived-mode-p 'eaf-mode)
-          (pcase eaf--buffer-app-name
-            ("browser" (if  (string= (eaf-call-sync "call_function" eaf--buffer-id "is_focus") "True")
-                           (kbd "SPC")
-                         (kbd eaf-evil-leader-key)))
-            ("pdf-viewer" (kbd eaf-evil-leader-key))
-            ("image-viewer" (kbd eaf-evil-leader-key))
-            (_  (kbd "SPC")))
-        (kbd "SPC")))))
-#+end_example
 *** Achievements in Emacs
 #+begin_src emacs-lisp
 (achievements-mode)
 #+end_src
-*** Fix DOOM Emacs centaur errors :patch:temporary:
-#+begin_example emacs-lisp
-(centaur-tabs-group-by-projectile-project)
-#+end_example
 *** Grammarly support in flycheck
 #+begin_example emacs-lisp
 (with-eval-after-load 'flycheck
   (flycheck-grammarly-setup))
 #+end_example
-*** Insert increasing numbers before sentences
-by [[https://emacs.stackexchange.com/users/105/drew][Drew]] on StackOverflow
-[[https://emacs.stackexchange.com/questions/14695/how-can-emacs-number-the-sentences-in-a-text][How can Emacs number the sentences in a text? - Emacs Stack Exchange]]
-#+begin_src emacs-lisp
-(defun foo-backward (beg end)
-      "Number sentences in buffer or active region, from end, starting with 1."
-      (interactive (if (use-region-p)
-                       (list (region-beginning) (region-end))
-                     (list (point-min) (point-max))))
-      (let ((ii  0)
-            ins)
-        (save-excursion
-          (goto-char end)
-          (while (> (point) beg)
-            (backward-sentence)
-            (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
-            (search-backward ins nil t)))))
-
-(defun foo-forward (beg end)
-  "Number sentences in buffer or active region, starting with 1."
-  (interactive (if (use-region-p)
-                   (list (region-beginning) (region-end))
-                 (list (point-min) (point-max))))
-  (let ((ii  0)
-        ins)
-    (save-excursion
-      (goto-char beg)
-      (while (< (point) end)
-        (forward-sentence)
-        (backward-sentence)
-        (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
-        (forward-sentence)))))
-#+end_src
-
 * Referenced
 ** [[https://raw.githubusercontent.com/gilbertw1/emacs-literate-starter/master/emacs.org][DOOM Emacs Literate Config]]
 By Gilbert. Thanks, Gilbert.

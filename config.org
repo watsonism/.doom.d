@@ -168,7 +168,7 @@ If you use `org' and don't want your org files in the default location below, ch
          "/nextcloud/documents/org/bib.bib")))
 #+end_src
 ***** Org-Cite (oc.el) CiteProc Formatter File Directory
-For MLA formatting of LaTeX papers.
+Citation Style Language!
 #+begin_src emacs-lisp
 (setq org-cite-csl-styles-dir
       (concat

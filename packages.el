@@ -67,22 +67,22 @@
 
 (package! org-roam-ui)
 
-(package! literate-lisp
-  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+;;(package! literate-lisp
+;;  :recipe (:host github :repo "jingtaozf/literate-lisp"))
 
-(package! citeproc)
+;;(package! citeproc)
 
-(package! geiser)
+;;(package! geiser)
 
-(package! macrostep-geiser)
+;;(package! macrostep-geiser)
 
 (package! sicp)
 
 (package! random-splash-image)
 
-(package! clhs)
+;;(package! clhs)
 
-(package! common-lisp-snippets)
+;;(package! common-lisp-snippets)
 
 (package! elcord)
 
@@ -94,14 +94,16 @@
 
 (package! achievements)
 
-(package! csv-mode)
+;;(package! csv-mode)
 
-(package! grammarly)
+;;(package! grammarly)
 
-(package! flycheck-grammarly)
+;;(package! flycheck-grammarly)
 
-(package! flymake-grammarly)
+;;(package! flymake-grammarly)
 
-(package! skeletor)
+;;(package! skeletor)
 
-(package! wolfram)
+;;(package! wolfram)
+
+(package! simple-httpd)

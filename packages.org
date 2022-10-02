@@ -104,23 +104,23 @@ Leverage Pandoc to convert selected file types to org.
 **** literate programming packages
 ***** literate-lisp
 #+begin_src emacs-lisp
-(package! literate-lisp
-  :recipe (:host github :repo "jingtaozf/literate-lisp"))
+;;(package! literate-lisp
+;;  :recipe (:host github :repo "jingtaozf/literate-lisp"))
 #+end_src
 **** citeproc
 #+begin_src emacs-lisp
-(package! citeproc)
+;;(package! citeproc)
 #+end_src
 *** Geiser
 Geiser is used to interact with Scheme Lisp languages more easily.
 Enable schemes in ~/.doom.d/init.el
 #+begin_src emacs-lisp
-(package! geiser)
+;;(package! geiser)
 #+end_src
 **** Geiser macro stepper
 Allows for macro stepping in Geiser.
 #+begin_src emacs-lisp
-(package! macrostep-geiser)
+;;(package! macrostep-geiser)
 #+end_src
 *** Add Structure and Interpretations of Computer Programs to the info menu
 It's a book
@@ -187,27 +187,7 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 ;;(package! wolfram)
 #+end_src
-*** packages im currently testing (sandbox)
 *** simple-httpd
 #+begin_src emacs-lisp
 (package! simple-httpd)
 #+end_src
-*** helm-firefox &c
-requires wmctrl to be installed & for the ffbookmarks script to be placed in a directory in your $PATH.
-#+begin_src emacs-lisp
-(package! helm-firefox)
-(package! ewmctrl)
-(package! firefox-protocol
-  :recipe (:host github
-           :repo "troyp/firefox-protocol"))
-#+end_src
-following this,
-#+begin_example
-M-x firefox-protocol-installer-install RET ffbookmarks RET /path/to/ffbookmarks
-#+end_example
-and, as stated [[https://github.com/emacs-helm/helm-firefox][here]],
-#+begin_quote
-Also to come back to firefox when you select a bookmark or abort with C-g this script is using wmctrl program, so you should install it. By default the script is assuming the firefox executable is "firefox", to modify this you can add to your env vars in .profile or .bashrc:
-
-export FIREFOXEXE="name of your firefox executable"
-#+end_quote

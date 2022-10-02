@@ -23,7 +23,7 @@
        :completion
        company           ; the ultimate code completion backend
        helm              ; the *other* search engine for love and life
-       ido               ; the other *other* search engine...
+       ;;ido               ; the other *other* search engine...
        ivy               ; a search engine for love and life
        vertico           ; the search engine of the future
 
@@ -80,9 +80,9 @@
        vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
-       (spell +flyspell) ; tasing you for misspelling mispelling
-       grammar           ; tasing grammar mistake every you make
+       ;; syntax              ; tasing you for every semicolon you forget
+       ;; (spell +flyspell) ; tasing you for misspelling mispelling
+       ;; grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible

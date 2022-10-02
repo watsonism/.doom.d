@@ -2,6 +2,11 @@
 
 (setq delete-by-moving-to-trash t)
 
+(setq org-todo-keywords
+       '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "HABIT(H)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-pretty-entities t)
@@ -58,6 +63,11 @@
         (concat
          (getenv "HOME")
          "/nextcloud/documents/org/bib.bib")))
+
+(setq org-cite-csl-styles-dir
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/latex/citeproc-formatters/"))
 
 (setq citar-bibliography
        (list
@@ -178,11 +188,6 @@ belongs as a list."
 
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 
-(setq org-cite-csl-styles-dir
-      (concat
-       (getenv "HOME")
-       "/nextcloud/documents/org/latex/citeproc-formatters/"))
-
 (setq user-full-name "Chu the Pup"
       user-mail-address "chufilthymutt@gmail.com")
 
@@ -218,32 +223,3 @@ belongs as a list."
 (setq ledger-schedule-file "~/nextcloud/documents/ledger/ledger-schedule.ledger")
 
 (achievements-mode)
-
-(defun foo-backward (beg end)
-      "Number sentences in buffer or active region, from end, starting with 1."
-      (interactive (if (use-region-p)
-                       (list (region-beginning) (region-end))
-                     (list (point-min) (point-max))))
-      (let ((ii  0)
-            ins)
-        (save-excursion
-          (goto-char end)
-          (while (> (point) beg)
-            (backward-sentence)
-            (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
-            (search-backward ins nil t)))))
-
-(defun foo-forward (beg end)
-  "Number sentences in buffer or active region, starting with 1."
-  (interactive (if (use-region-p)
-                   (list (region-beginning) (region-end))
-                 (list (point-min) (point-max))))
-  (let ((ii  0)
-        ins)
-    (save-excursion
-      (goto-char beg)
-      (while (< (point) end)
-        (forward-sentence)
-        (backward-sentence)
-        (insert (setq ins  (format "[%d] " (setq ii  (1+ ii)))))
-        (forward-sentence)))))

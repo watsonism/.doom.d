@@ -50,11 +50,31 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
       user-mail-address "example@donut.arpa")
 #+end_example
 ** My Config
+*** EXWM
+#+begin_example emacs-lisp
+(require 'exwm)
+(require 'exwm-config)
+(exwm-enable)
+(require 'exwm-randr)
+(setq exwm-randr-workspace-output-plist '(0 "DisplayPort-0" 1 "DisplayPort-1" 2 "HDMI-A-1"))
+(add-hook 'exwm-randr-screen-change-hook
+          (lambda ()
+            (start-process-shell-command
+             "xrandr" nil "xrandr --output DisplayPort-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DisplayPort-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-A-0 --off --output HDMI-A-1 --mode 1920x1080 --pos 3840x0 --rotate left")))
+(exwm-randr-enable)
+#+end_example
 *** Trash instead of delete
 #+begin_src emacs-lisp
 (setq delete-by-moving-to-trash t)
 #+end_src
 *** Org-Mode
+**** add custom org-todo-keywords
+#+begin_src emacs-lisp
+(setq org-todo-keywords
+       '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "HABIT(H)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+#+end_src
 **** Fix DOOM Emacs org-fold issue :patch:
 #+begin_example emacs-lisp
 (setq org-fold-core-style 'overlays)
@@ -138,13 +158,22 @@ If you use `org' and don't want your org files in the default location below, ch
        (getenv "HOME")
        "/nextcloud/documents/org/.attach/"))
 #+end_src
-**** Org-Cite (oc.el) bibliography
+**** Org-Cite (oc.el)
+***** Org-Cite (oc.el) bibliography
 #+begin_src emacs-lisp
 (setq! org-cite-global-bibliography
        (list
         (concat
          (getenv "HOME")
          "/nextcloud/documents/org/bib.bib")))
+#+end_src
+***** Org-Cite (oc.el) CiteProc Formatter File Directory
+For MLA formatting of LaTeX papers.
+#+begin_src emacs-lisp
+(setq org-cite-csl-styles-dir
+      (concat
+       (getenv "HOME")
+       "/nextcloud/documents/org/latex/citeproc-formatters/"))
 #+end_src
 **** Citar bibliography
 #+begin_src emacs-lisp
@@ -166,7 +195,6 @@ If you use `org' and don't want your org files in the default location below, ch
 (setq org-image-actual-width 500)
 #+end_src
 Set in an attempt to stop images being absolutely HUGE after inlining them in an org document with org-download.
-
 **** Load package org-pandoc-import after org loads.
 #+begin_src emacs-lisp
 (use-package! org-pandoc-import :after org)
@@ -348,15 +376,6 @@ belongs as a list."
                          nil
                        'tree)))
 #+end_example
-*** LaTeX
-**** CiteProc Formatter File Directory
-For MLA formatting of LaTeX papers.
-#+begin_src emacs-lisp
-(setq org-cite-csl-styles-dir
-      (concat
-       (getenv "HOME")
-       "/nextcloud/documents/org/latex/citeproc-formatters/"))
-#+end_src
 *** Private Configuration
 #+begin_src emacs-lisp
 (setq user-full-name "Chu the Pup"

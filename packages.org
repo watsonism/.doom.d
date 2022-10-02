@@ -60,11 +60,21 @@
 ;(unpin! t)
 #+end_src
 ** Chu's package(s)
-*** my elisp
+*** my elisp packages
 #+begin_src emacs-lisp
 (package! firefox-lock-deleter
   :recipe (:host github :repo "chumutt/firefox-lock-deleter.el"))
 #+end_src
+*** EXWM
+#+begin_example emacs-lisp
+(package! exwm)
+(package! exwm-edit)
+(package! exwm-firefox-core)
+(package! exwm-firefox-evil)
+(package! exwm-mff)
+(package! exwm-float)
+(package! exwm-modeline)
+#+end_example
 *** Org mode packages
 **** org-bullets
 #+begin_src emacs-lisp
@@ -182,3 +192,22 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 (package! simple-httpd)
 #+end_src
+*** helm-firefox &c
+requires wmctrl to be installed & for the ffbookmarks script to be placed in a directory in your $PATH.
+#+begin_src emacs-lisp
+(package! helm-firefox)
+(package! ewmctrl)
+(package! firefox-protocol
+  :recipe (:host github
+           :repo "troyp/firefox-protocol"))
+#+end_src
+following this,
+#+begin_example
+M-x firefox-protocol-installer-install RET ffbookmarks RET /path/to/ffbookmarks
+#+end_example
+and, as stated [[https://github.com/emacs-helm/helm-firefox][here]],
+#+begin_quote
+Also to come back to firefox when you select a bookmark or abort with C-g this script is using wmctrl program, so you should install it. By default the script is assuming the firefox executable is "firefox", to modify this you can add to your env vars in .profile or .bashrc:
+
+export FIREFOXEXE="name of your firefox executable"
+#+end_quote

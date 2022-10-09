@@ -182,11 +182,6 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+begin_src emacs-lisp
 ;;(package! skeletor)
 #+end_src
-*** packages to try out when i have time to configure them properly
-**** wolfram alpha search in emacs
-#+begin_src emacs-lisp
-;;(package! wolfram)
-#+end_src
 *** simple-httpd
 #+begin_src emacs-lisp
 (package! simple-httpd)

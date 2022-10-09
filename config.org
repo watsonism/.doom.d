@@ -103,22 +103,26 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
         "/nextcloud/documents/org/")))
 #+end_src
-**** Custom org agenda file
+**** Custom org agenda file :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-agenda-files
         (list
          (concat
           (getenv "HOME")
-          "/nextcloud/documents/org/agenda.org"))))
+          "/nextcloud/documents/org/roam/20221004222223-agenda.org"))))
 #+end_src
+
+#+RESULTS:
+| /home/chu/nextcloud/documents/org/roam/20221004222223-agenda.org |
+
 **** Custom org journal file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-journal-file
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/journal.org")))
+         "/nextcloud/documents/org/roam/20221004222230-journal.org")))
 #+end_src
 **** Custom org notes file location :org:
 #+begin_src emacs-lisp
@@ -126,7 +130,7 @@ If you use `org' and don't want your org files in the default location below, ch
   (setq +org-capture-notes-file
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/notes.org")))
+         "/nextcloud/documents/org/roam/20221004222235-notes.org")))
 #+end_src
 **** Custom org projects file location :org:
 #+begin_src emacs-lisp
@@ -134,7 +138,15 @@ If you use `org' and don't want your org files in the default location below, ch
   (setq +org-capture-projects-file
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/projects.org")))
+         "/nextcloud/documents/org/roam/20221004222226-projects.org")))
+#+end_src
+**** Custom org todo file location :org:
+#+begin_src elisp
+(with-eval-after-load 'org
+  (setq +org-capture-todo-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/roam/20221004221829-todo.org")))
 #+end_src
 **** Org roam v2 directories and files
 #+begin_src emacs-lisp
@@ -528,6 +540,9 @@ Might be broken, disabling for now.
 (with-eval-after-load 'flycheck
   (flycheck-grammarly-setup))
 #+end_example
+*** Helm
+#+begin_src elisp
+#+end_src
 * Referenced
 ** [[https://raw.githubusercontent.com/gilbertw1/emacs-literate-starter/master/emacs.org][DOOM Emacs Literate Config]]
 By Gilbert. Thanks, Gilbert.

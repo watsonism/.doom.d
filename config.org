@@ -156,8 +156,9 @@ Set user information.
           "*** %?%i%a" :prepend t))))
 #+end_src
 
-#+RESULTS:
-| t | Personal todo | entry | (file+headline +org-capture-todo-file Inbox) | * [ ] %? |
+The following will vary, so change it to be whatever your bookmarks file is/what you want it to be.
+
+I use a document that I track with org roam but you don't necessarily have to do that.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org

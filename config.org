@@ -85,7 +85,6 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
 (setq user-full-name "Chu the Pup"
       user-mail-address "chufilthymutt@gmail.com")
 #+end_src
-
 *** EMMS
 #+begin_src emacs-lisp
 (setq emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
@@ -96,7 +95,6 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
 #+end_src
 *** IRC (ERC)
 Set user information.
-
 #+begin_src elisp :results none
 (setq erc-server "localhost"
       erc-nick "chu"

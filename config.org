@@ -4,52 +4,91 @@
 #+PROPERTY: header-args :tangle yes
 #+startup: content
 * Org Mode Literate Config (config.org) file
+
 ** Preamble
+
 Here's the deets:
+
 *** Org-mode babel tangle setup
+
 There is a property defined on at the top of this file:
+
 #+begin_example emacs-lisp
 header-args :tangle yes
 #+end_example
+
 This tells emacs to automatically tangle (include) all code blocks in this file when generating the code for the config file (config.el), unless the code block explicitly includes =:tangle no= as the above code block does (or if it is a quote or example block).
+
 *** Usage of quote and example blocks
+
 This is done in order to debug the configuration on my end. However, the use of quote and example blocks also serves as a way of offering an on/off switch to certain blocks of "settings" (blocks beginning in "#+begin_something" and ending in "#+end_something").
+
 ** DOOM Emacs stuff
+
 #+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 #+end_src
+
 Doom exposes five (optional) variables for controlling fonts in Doom. Here are the three important ones:
+
 + `doom-font'
+
 + `doom-variable-pitch-font'
+
 + `doom-big-font' -- used for `doom-big-font-mode'; use this for presentations or streaming.
+
 They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font string. You generally only need these two:
+
 #+begin_example
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 #+end_example
+
 #+begin_example
 (setq doom-variable-pitch-font (font-spec :family "sans" :size 13))
 #+end_example
+
 There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the `load-theme' function. This is the default:
+
 #+begin_example emacs-lisp
 (setq doom-theme 'doom-one)
 #+end_example
+
 Here are some additional functions/macros that could help you configure Doom:
+
 - `load!' for loading external *.el files relative to this one
+
 - `use-package!' for configuring packages
+
 - `after!' for running code after a package has loaded
+
 - `add-load-path!' for adding directories to the `load-path', relative to
   this file. Emacs searches the `load-path' when you load packages with
   `require' or `use-package'.
+
 - `map!' for binding new keys
+
 To get information about any of these functions/macros, move the cursor over the highlighted symbol at press 'K' (non-evil users must press 'C-c c k'). This will open documentation for it, including demos of how they are used.
+
 You can also try 'gd' (or 'C-c c d') to jump to their definition and see how they are implemented.
+
 Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
+
 Some functionality uses this to identify you, e.g. GPG configuration, email clients, file templates and snippets.
+
 #+begin_example emacs-lisp
 (setq user-full-name "John Doe"
       user-mail-address "example@donut.arpa")
 #+end_example
+
 ** My Config
+
+*** Private Configuration
+
+#+begin_src emacs-lisp
+(setq user-full-name "Chu the Pup"
+      user-mail-address "chufilthymutt@gmail.com")
+#+end_src
+
 *** EXWM
 #+begin_example emacs-lisp
 (require 'exwm)
@@ -63,6 +102,40 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
              "xrandr" nil "xrandr --output DisplayPort-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DisplayPort-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-A-0 --off --output HDMI-A-1 --mode 1920x1080 --pos 3840x0 --rotate left")))
 (exwm-randr-enable)
 #+end_example
+*** EMMS
+#+begin_src emacs-lisp
+(setq emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq emms-source-file-default-directory "~/Music/")
+#+end_src
+
+*** IRC
+**** ERC
+Set user information.
+#+begin_src elisp :results none
+(setq erc-server "localhost"
+      erc-nick "chu"
+      erc-user-full-name "Chu the Pup")
+#+end_src
+
+Stop ERC pop-ups.
+
+#+begin_example
+,#+begin_src emacs-lisp :results none
+(with-eval-after-load 'erc
+  (setq erc-join-buffer 'bury))
+,#+end_src
+#+end_example
+
+#+begin_example
+,#+begin_src emacs-lisp :results none
+(with-eval-after-load 'erc
+  (setq erc-auto-query 'bury))
+,#+end_src
+#+end_example
+*** Dired
 *** Trash instead of delete
 #+begin_src emacs-lisp
 (setq delete-by-moving-to-trash t)
@@ -93,6 +166,58 @@ but I prefer this function & binding by Micah Elliott with modifications/suggest
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-pretty-entities t)
 #+end_src
+**** Custom org capture templates
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq org-capture-templates
+        '(("t" "Personal todo" entry
+          (file+headline +org-capture-todo-file "Inbox")
+          "* [ ] %?\n%i\n%a" :prepend t)
+         ("n" "Personal notes" entry
+          (file+headline +org-capture-notes-file "Inbox")
+          "* %u %?\n%i\n%a" :prepend t)
+         ("j" "Journal" entry
+          (file+olp+datetree +org-capture-journal-file)
+          "* %U %?\n%i\n%a" :prepend t)
+         ("p" "Templates for projects")
+         ("pt" "Project-local todo" entry
+          (file+headline +org-capture-project-todo-file "Inbox")
+          "* TODO %?\n%i\n%a" :prepend t)
+         ("pn" "Project-local notes" entry
+          (file+headline +org-capture-project-notes-file "Inbox")
+          "* %U %?\n%i\n%a" :prepend t)
+         ("pc" "Project-local changelog" entry
+          (file+headline +org-capture-project-changelog-file "Unreleased")
+          "* %U %?\n%i\n%a" :prepend t)
+         ("o" "Centralized templates for projects")
+         ("ot" "Project todo" entry
+          #'+org-capture-central-project-todo-file
+          "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+         ("on" "Project notes" entry
+          #'+org-capture-central-project-notes-file
+          "* %U %?\n %i\n %a" :prepend t :heading "Notes")
+         ("oc" "Project changelog" entry
+          #'+org-capture-central-project-changelog-file
+          "* %U %?\n %i\n %a" :prepend t :heading "Changelog")
+         ("b" "(web) Bookmark" plain
+          (file+headline +org-capture-bookmarks-file "Inbox")
+          "*** %?%i%a" :prepend t))))
+#+end_src
+
+#+RESULTS:
+| t | Personal todo | entry | (file+headline +org-capture-todo-file Inbox) | * [ ] %? |
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq +org-capture-bookmarks-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/roam/20221004090130-bookmarks.org")))
+#+end_src
+
+#+RESULTS:
+: /home/chu/nextcloud/documents/org/roam/20221004090130-bookmarks.org
+
 **** Custom org directories and files :org:
 If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
 **** Custom org root directory :org:
@@ -177,7 +302,7 @@ If you use `org' and don't want your org files in the default location below, ch
        (list
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/bib.bib")))
+         "/nextcloud/documents/org/roam/bib.bib")))
 #+end_src
 ***** Org-Cite (oc.el) CiteProc Formatter File Directory
 Citation Style Language!
@@ -388,13 +513,21 @@ belongs as a list."
                          nil
                        'tree)))
 #+end_example
-*** Private Configuration
+**** Custom Org Agenda files
 #+begin_src emacs-lisp
-(setq user-full-name "Chu the Pup"
-      user-mail-address "chufilthymutt@gmail.com")
+(with-eval-after-load 'org
+  (setq org-agenda-files '("~/nextcloud/documents/org/roam/20221004221829-todo.org"
+                           "~/nextcloud/documents/org/roam/20220823133453-precalculus_algebra.org"
+                           "~/nextcloud/documents/org/roam/20220826102101-chem_1110.org"
+                           "~/nextcloud/documents/org/roam/20220726210346-important_dates.org"
+                           "~/nextcloud/documents/org/roam/20221004222235-notes.org"
+                           "~/nextcloud/documents/org/roam/20221004222230-journal.org"
+                           "~/nextcloud/documents/org/roam/20221004222226-projects.org"
+                           "~/nextcloud/documents/org/roam/20220822103202-engl_1020.org"
+                           "~/nextcloud/documents/org/roam/20221002161620-my_conlang.org")))
 #+end_src
 *** Visual Changes
-**** Fix transparency issues
+**** Fix alpha transparency issues
 Sometimes Emacs has issues with transparency. In my case, it goes unusably transparent if I make use of an Xresources file.
 
 You can specify frames to use different levels of transparency depending on whether or not you have Emacs focused (active) or if you've clicked off to another application (inactive).
@@ -412,7 +545,7 @@ Or you can just use one number, as so:
 Here's the settings I currently use:
 
 #+begin_src emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha 98)
+(set-frame-parameter (selected-frame) 'alpha 100)
 #+end_src
 
 **** Temporarily convert images that Emacs cannot otherwise display
@@ -540,10 +673,30 @@ Might be broken, disabling for now.
 (with-eval-after-load 'flycheck
   (flycheck-grammarly-setup))
 #+end_example
-*** Helm
-#+begin_src elisp
+*** Round numbers to N decimals in Elisp
+from [[https://gergely.polonkai.eu/blog/2014/10/7/rounding-numbers-to-n-decimals-in-emacs.html][Rounding numbers to N decimals in Emacs]] by Gergely Polonkai
+#+begin_src emacs-lisp
+(defun get-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789.-")
+  (or (looking-at "[0123456789.-]+")
+      (error "No number at point"))
+  (string-to-number (match-string 0)))
+
+(defun round-number-at-point-to-decimals (decimal-count)
+  (interactive "NDecimal count: ")
+  (let ((mult (expt 10 decimal-count)))
+    (replace-match (number-to-string
+              (/
+               (fround
+                (*
+                 mult
+                 (get-number-at-point)))
+                mult)))))
 #+end_src
 * Referenced
+** https://blog.lazkani.io/posts/bookmark-with-org-capture/
+** https://orgmode.org/manual/Capture-templates.html
 ** [[https://raw.githubusercontent.com/gilbertw1/emacs-literate-starter/master/emacs.org][DOOM Emacs Literate Config]]
 By Gilbert. Thanks, Gilbert.
 ** [[https://github.com/alphapapa/unpackaged.el#ensure-blank-lines-between-headings-and-before-contents][alphapapa/unpackaged.el: A collection of useful Emacs Lisp code that isn't substantial enough to be packaged]]

@@ -163,7 +163,7 @@ If you use `org' and don't want your org files in the default location below, ch
 
 ***** Custom org root directory :org:
 
-The following will vary, so change it to be whatever your bookmarks file is/what you want it to be.
+The following will vary, so change it to be whatever your org root directory is/what you want it to be.
 
 I use a directory that I sync between computers with a nextcloud server I run but you don't necessarily have to do that.
 
@@ -191,6 +191,12 @@ I use a document that I track with org roam but you don't necessarily have to do
 
 ***** Custom org agenda file :org:
 
+The following will vary, so change it to be whatever your agenda file is/what you want it to be.
+
+I use a document that I track with org roam but you don't necessarily have to do that.
+
+Also, I primarily use a "todo" file rather than an "agenda" file, for agenda ("TODO") items.
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-agenda-files
@@ -201,6 +207,9 @@ I use a document that I track with org roam but you don't necessarily have to do
 #+end_src
 
 ***** Custom org journal file location :org:
+
+You know the gist by now--change this to whatever you want your file to be.
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-journal-file
@@ -208,7 +217,11 @@ I use a document that I track with org roam but you don't necessarily have to do
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004222230-journal.org")))
 #+end_src
+
 ***** Custom org notes file location :org:
+
+You know the gist by now--change this to whatever you want your file to be.
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-notes-file
@@ -216,7 +229,11 @@ I use a document that I track with org roam but you don't necessarily have to do
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004222235-notes.org")))
 #+end_src
+
 ***** Custom org projects file location :org:
+
+You know the gist by now--change this to whatever you want your file to be.
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-projects-file
@@ -224,7 +241,13 @@ I use a document that I track with org roam but you don't necessarily have to do
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004222226-projects.org")))
 #+end_src
+
 ***** Custom org todo file location :org:
+
+You know the gist by now--change this to whatever you want your file to be.
+
+I primarily use a "todo" file rather than an "agenda" file, for agenda ("TODO") items.
+
 #+begin_src elisp
 (with-eval-after-load 'org
   (setq +org-capture-todo-file
@@ -232,7 +255,9 @@ I use a document that I track with org roam but you don't necessarily have to do
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004221829-todo.org")))
 #+end_src
+
 ***** Org roam v2 directories and files
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-roam-directory
@@ -240,22 +265,28 @@ I use a document that I track with org roam but you don't necessarily have to do
          (getenv "HOME")
          "/nextcloud/documents/org/roam/")))
 #+end_src
+
 ***** Org id custom id location
+
 #+begin_src emacs-lisp
 (setq org-id-locations-file
       (concat
        (getenv "HOME")
        "/nextcloud/documents/org/.orgids"))
 #+end_src
+
 ***** Org-attach custom directory
+
 #+begin_src emacs-lisp
 (setq org-attach-id-dir
       (concat
        (getenv "HOME")
        "/nextcloud/documents/org/.attach/"))
 #+end_src
+
 ***** Org-Cite (oc.el)
 ****** Org-Cite (oc.el) bibliography location
+
 #+begin_src emacs-lisp
 (setq! org-cite-global-bibliography
        (list
@@ -263,15 +294,20 @@ I use a document that I track with org roam but you don't necessarily have to do
          (getenv "HOME")
          "/nextcloud/documents/org/roam/bib.bib")))
 #+end_src
+
 ****** Org-Cite (oc.el) CiteProc formatter file directory location
+
 Citation Style Language!
+
 #+begin_src emacs-lisp
 (setq org-cite-csl-styles-dir
       (concat
        (getenv "HOME")
        "/nextcloud/documents/org/latex/citeproc-formatters/"))
 #+end_src
+
 ***** Citar bibliography location
+
 #+begin_src emacs-lisp
 (setq citar-bibliography
        (list
@@ -281,22 +317,31 @@ Citation Style Language!
 #+end_src
 
 **** Download/capture for Org mode
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
 (require 'org-download)
 (add-hook 'dired-mode-hook 'org-download-enable))
 #+end_src
-**** TODO org-download image with attr tag added automatically when images are downloaded
+
+**** Org-download image width attribute tag added automatically when images are downloaded
+
+Set in an attempt to stop images being absolutely HUGE after inlining them in an org document with org-download.
+
 #+begin_src emacs-lisp
 (setq org-image-actual-width 500)
 #+end_src
-Set in an attempt to stop images being absolutely HUGE after inlining them in an org document with org-download.
+
 **** Load package org-pandoc-import after org loads.
+
 #+begin_src emacs-lisp
 (use-package! org-pandoc-import :after org)
 #+end_src
+
 **** LaTeX classes for org mode with org-latex-classes
+
 Helpful when editing LaTeX documents.
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'ox-latex
 (add-to-list 'org-latex-classes
@@ -311,6 +356,7 @@ Helpful when editing LaTeX documents.
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 #+end_src
+
 **** A not-stupid way to archive sections of Org documents
 By default, using the Org mode archive function 'org-archive-subtree-default' does not capture the higher-level headings a particular subheading was sitting under when it was archived, which makes a mess of the archive file that gets created. Use this instead!
 #+begin_example emacs-lisp
@@ -432,47 +478,17 @@ belongs as a list."
 (defun org-archive-subtree ()
   (org-archive-subtree-hierarchical))
 #+end_src
+
 **** Change the default Org archive function to be the not-stupid one
+
 #+begin_src emacs-lisp
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 #+end_src
-**** Ensure that blank lines exist between headings and between headings and their contents.
-#+begin_example emacs-lisp
-;;;###autoload
-(defun unpackaged/org-fix-blank-lines (&optional prefix)
-;; "Ensure that blank lines exist between headings and between headings and their contents.
-;; With prefix, operate on whole buffer. Ensures that blank lines
-;; exist after each headings's drawers."
-  (interactive "P")
-  (org-map-entries (lambda ()
-                     (org-with-wide-buffer
-                      ;; `org-map-entries' narrows the buffer, which prevents us from seeing
-                      ;; newlines before the current heading, so we do this part widened.
-                      (while (not (looking-back "\n\n" nil))
-                        ;; Insert blank lines before heading.
-                        (insert "\n")))
-                     (let ((end (org-entry-end-position)))
-                       ;; Insert blank lines before entry content
-                       (forward-line)
-                       (while (and (org-at-planning-p)
-                                   (< (point) (point-max)))
-                         ;; Skip planning lines
-                         (forward-line))
-                       (while (re-search-forward org-drawer-regexp end t)
-                         ;; Skip drawers. You might think that `org-at-drawer-p' would suffice, but
-                         ;; for some reason it doesn't work correctly when operating on hidden text.
-                         ;; This works, taken from `org-agenda-get-some-entry-text'.
-                         (re-search-forward "^[ \t]*:END:.*\n?" end t)
-                         (goto-char (match-end 0)))
-                       (unless (or (= (point) (point-max))
-                                   (org-at-heading-p)
-                                   (looking-at-p "\n"))
-                         (insert "\n"))))
-                   t (if prefix
-                         nil
-                       'tree)))
-#+end_example
+
 **** Custom Org Agenda files
+
+Subject to change as projects roll in and out of my purview.
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-agenda-files '("~/nextcloud/documents/org/roam/20221004221829-todo.org"
@@ -485,8 +501,10 @@ belongs as a list."
                            "~/nextcloud/documents/org/roam/20220822103202-engl_1020.org"
                            "~/nextcloud/documents/org/roam/20221002161620-my_conlang.org")))
 #+end_src
+
 *** Visual Changes
 **** Fix alpha transparency issues
+
 Sometimes Emacs has issues with transparency. In my case, it goes unusably transparent if I make use of an Xresources file.
 
 You can specify frames to use different levels of transparency depending on whether or not you have Emacs focused (active) or if you've clicked off to another application (inactive).
@@ -508,35 +526,51 @@ Here's the settings I currently use:
 #+end_src
 
 **** Temporarily convert images that Emacs cannot otherwise display
+
 This will Set Emacs to convert images if they are going to be shown in the GUI. It detects when Emacs is unable to display the image due to lack of compatibility and temporarily converts it, pushing the converted version into memory during display (it gets cleaned up by the garbage collector).
+
 Note: This is a soft dependency of random-splash-image; in turn, you risk being unable to display certain image file types (notably .webp files) if this is disabled.
+
 #+begin_src emacs-lisp
 (setq image-use-external-converter t)
 #+end_src
+
 **** Random Splash Images
 ***** Enable random-splash-image
+
 For the plugin 'random-splash-image' which displays a random splash image on each Emacs startup.
+
 #+begin_src emacs-lisp
 (require 'random-splash-image)
 #+end_src
+
 ***** Tell random-splash-image what directory to look for images in.
+
 #+begin_example emacs-lisp
 (setq random-splash-image-dir
       (concat
        (getenv "HOME") "/.local/share/random-splash-image-dir/konsticlub/src/"))
 #+end_example
+
+I use a more specific one at the moment.
+
 #+begin_src emacs-lisp
 (setq random-splash-image-dir
       (concat
        (getenv "HOME") "/.local/share/random-splash-image-dir/chosen-splash-images/src/"))
 #+end_src
+
 ***** TODO Set multiple directories for random-splash-image
+I don't know how to do this yet.
 **** Set a random splash image on Emacs startup
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'random-splash-image
   (random-splash-image-set))
 #+end_src
+
 **** Display line number styling
+
 This determines the style of line numbers in effect. If set to `nil', line numbers are disabled. For relative line numbers, set this to `relative'.
 
 Disabled since Doom is handling this okay now without it.
@@ -544,42 +578,61 @@ Disabled since Doom is handling this okay now without it.
 #+begin_example emacs-lisp
 (setq display-line-numbers t)
 #+end_example
+
 *** Geiser settings
+
 Geiser is an interface to using a proper scheme REPL in a modern Emacs.
+
 #+begin_example emacs-lisp
 (setq geiser-repl-startup-time 20000)
 (setq geiser-chez-binary "chez")
 #+end_example
+
 *** Skeletor settings
+
+Set to wherever you want skeletor to generate new projects by default. Works for all sorts of projects.
+
 #+begin_src emacs-lisp
 (setq skeletor-project-directory
       (concat
        (getenv "HOME")
        "/nextcloud/projects/"))
 #+end_src
+
 *** Exclude user-specified projects in Projectile
+
 Set multiple ignored project like this:
+
 #+begin_example emacs-lisp
 (setq projectile-ignored-projects '("~/.git/"
                                     "~/.config/"
                                     "~/Images/Personal/Private/Shirtless-Pictures-of-Steve-Harvey/"))
 #+end_example
+
 And ensure their removal after projectile finishes loading with this:
+
 #+begin_example emacs-lisp
 (after! projectile
   (setq projectile-project-root-files-bottom-up
         (remove ".git" projectile-project-root-files-bottom-up)))
 #+end_example
+
 If that doesn't work, try setting ignored projects like this:
+
 #+begin_example emacs-lisp
 (setq projectile-ignored-projects '("~/.git"))
 #+end_example
+
 And if /that/ doesn't work, try this:
+
 #+begin_example emacs-lisp
 (setq projectile-globally-ignored-directories "~/.git")
 #+end_example
+
 *** ripgrep "rg" fast search to handle projectile project files
+
 Use the faster searcher to handle project files: ripgrep "rg"
+
 #+begin_src emacs-lisp
 (when (and (not (executable-find "fd"))
            (executable-find "rg"))
@@ -592,20 +645,29 @@ Use the faster searcher to handle project files: ripgrep "rg"
                         (expand-file-name "rg_ignore" user-emacs-directory)))
           (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile))))
 #+end_src
+
 *** Enable active presence on Discord for Emacs
+
 *Note:* This will tell anyone on your Discord your current activity status in Emacs—with a pretty hefty amount of detail as well. If you feel like this violates your sense of privacy, either keep it wrapped with
+
 #+begin_quote
 #+begin_example
 ...
 #+end_example
 #+end_quote
+
 or just delete it entirely.
+
 #+begin_example emacs-lisp
 (elcord-mode)
 #+end_example
+
 *** EPG: Letting Emacs query for GPG passwords
+
 Allow Emacs to handle queries for gpg passwords.
+
 Disabled for now.
+
 #+begin_example emacs-lisp
 (setf epg-pinentry-mode 'loopback)
 (defun pinentry-emacs (desc prompt ok error)
@@ -613,27 +675,39 @@ Disabled for now.
               (concat (replace-regexp-in-string "%22" "\""
                       (replace-regexp-in-string "%0A" "\n" desc)) prompt ": ")))) str))
 #+end_example
+
 *** Periodic saving of recent files list (recentf):
+
 Might be broken, disabling for now.
+
 #+begin_example emacs-lisp
 (run-at-time nil (* 5 60) 'recentf-save-list)
 #+end_example
+
 *** Ledger
 **** Ledger file location defaults
+
 #+begin_src emacs-lisp
 (setq ledger-schedule-file "~/nextcloud/documents/ledger/ledger-schedule.ledger")
 #+end_src
+
 *** Achievements in Emacs
+
 #+begin_src emacs-lisp
 (achievements-mode)
 #+end_src
+
 *** Grammarly support in flycheck
+
 #+begin_example emacs-lisp
 (with-eval-after-load 'flycheck
   (flycheck-grammarly-setup))
 #+end_example
+
 *** Round numbers to N decimals in Elisp
+
 from [[https://gergely.polonkai.eu/blog/2014/10/7/rounding-numbers-to-n-decimals-in-emacs.html][Rounding numbers to N decimals in Emacs]] by Gergely Polonkai
+
 #+begin_src emacs-lisp
 (defun get-number-at-point ()
   (interactive)
@@ -653,15 +727,28 @@ from [[https://gergely.polonkai.eu/blog/2014/10/7/rounding-numbers-to-n-decimals
                  (get-number-at-point)))
                 mult)))))
 #+end_src
+
 * Referenced
+** [[https://gergely.polonkai.eu/blog/2014/10/7/rounding-numbers-to-n-decimals-in-emacs.html][Rounding numbers to N decimals in Emacs]] by Gergely Polonkai
+
 ** https://blog.lazkani.io/posts/bookmark-with-org-capture/
+
 ** https://orgmode.org/manual/Capture-templates.html
+
 ** [[https://raw.githubusercontent.com/gilbertw1/emacs-literate-starter/master/emacs.org][DOOM Emacs Literate Config]]
+
 By Gilbert. Thanks, Gilbert.
+
 ** [[https://github.com/alphapapa/unpackaged.el#ensure-blank-lines-between-headings-and-before-contents][alphapapa/unpackaged.el: A collection of useful Emacs Lisp code that isn't substantial enough to be packaged]]
+
 This is where the 'unpackaged/org-fix-blank-lines' function was sourced from.
+
 By alphapapa. Thanks, alphapapa.
+
 ** [[https://stackoverflow.com/a/35475878/259187][org-archive-subtree-hierarchical.el v0.2]]
+
 By [[https://gist.github.com/kepi/2f4acc3cc93403c75fbba5684c5d852d][Kepi]]. Thanks, Kepi.
+
 *** [[https://lists.gnu.org/archive/html/emacs-orgmode/2014-08/msg00109.html][org-archive-subtree-hierarchical.el v0.1]]
+
 By [[https://lists.gnu.org/archive/html/emacs-orgmode/2014-08/msg00109.html][Florian Adamsky]]. Thanks, Florian Adamsky.

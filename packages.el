@@ -50,6 +50,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;; (package! helm-firefox)
+
 (package! firefox-lock-deleter
   :recipe (:host github :repo "chumutt/firefox-lock-deleter.el"))
 
@@ -96,14 +98,8 @@
 
 ;;(package! csv-mode)
 
-;;(package! grammarly)
-
-;;(package! flycheck-grammarly)
-
-;;(package! flymake-grammarly)
-
 ;;(package! skeletor)
 
-;;(package! wolfram)
-
 (package! simple-httpd)
+
+(package! org-drill)

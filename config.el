@@ -1,5 +1,16 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+(setq user-full-name "Chu the Pup"
+      user-mail-address "chufilthymutt@gmail.com")
+
+(setq emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
+
+(setq emms-source-file-default-directory "~/Music/")
+
+(setq erc-server "localhost"
+      erc-nick "chu"
+      erc-user-full-name "Chu the Pup")
+
 (setq delete-by-moving-to-trash t)
 
 (setq org-todo-keywords
@@ -12,35 +23,82 @@
 (setq org-pretty-entities t)
 
 (with-eval-after-load 'org
+  (setq org-capture-templates
+        '(("t" "Personal todo" entry
+          (file+headline +org-capture-todo-file "Inbox")
+          "* [ ] %?\n%i\n%a" :prepend t)
+         ("n" "Personal notes" entry
+          (file+headline +org-capture-notes-file "Inbox")
+          "* %u %?\n%i\n%a" :prepend t)
+         ("j" "Journal" entry
+          (file+olp+datetree +org-capture-journal-file)
+          "* %U %?\n%i\n%a" :prepend t)
+         ("p" "Templates for projects")
+         ("pt" "Project-local todo" entry
+          (file+headline +org-capture-project-todo-file "Inbox")
+          "* TODO %?\n%i\n%a" :prepend t)
+         ("pn" "Project-local notes" entry
+          (file+headline +org-capture-project-notes-file "Inbox")
+          "* %U %?\n%i\n%a" :prepend t)
+         ("pc" "Project-local changelog" entry
+          (file+headline +org-capture-project-changelog-file "Unreleased")
+          "* %U %?\n%i\n%a" :prepend t)
+         ("o" "Centralized templates for projects")
+         ("ot" "Project todo" entry
+          #'+org-capture-central-project-todo-file
+          "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+         ("on" "Project notes" entry
+          #'+org-capture-central-project-notes-file
+          "* %U %?\n %i\n %a" :prepend t :heading "Notes")
+         ("oc" "Project changelog" entry
+          #'+org-capture-central-project-changelog-file
+          "* %U %?\n %i\n %a" :prepend t :heading "Changelog")
+         ("b" "(web) Bookmark" plain
+          (file+headline +org-capture-bookmarks-file "Inbox")
+          "*** %?%i%a" :prepend t))))
+
+(with-eval-after-load 'org
   (setq org-directory
         (concat
          (getenv "HOME")
         "/nextcloud/documents/org/")))
 
 (with-eval-after-load 'org
+  (setq +org-capture-bookmarks-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/roam/20221004090130-bookmarks.org")))
+
+(with-eval-after-load 'org
   (setq org-agenda-files
         (list
          (concat
           (getenv "HOME")
-          "/nextcloud/documents/org/agenda.org"))))
+          "/nextcloud/documents/org/roam/20221004222223-agenda.org"))))
 
 (with-eval-after-load 'org
   (setq +org-capture-journal-file
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/journal.org")))
+         "/nextcloud/documents/org/roam/20221004222230-journal.org")))
 
 (with-eval-after-load 'org
   (setq +org-capture-notes-file
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/notes.org")))
+         "/nextcloud/documents/org/roam/20221004222235-notes.org")))
 
 (with-eval-after-load 'org
   (setq +org-capture-projects-file
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/projects.org")))
+         "/nextcloud/documents/org/roam/20221004222226-projects.org")))
+
+(with-eval-after-load 'org
+  (setq +org-capture-todo-file
+        (concat
+         (getenv "HOME")
+         "/nextcloud/documents/org/roam/20221004221829-todo.org")))
 
 (with-eval-after-load 'org
   (setq org-roam-directory
@@ -62,7 +120,7 @@
        (list
         (concat
          (getenv "HOME")
-         "/nextcloud/documents/org/bib.bib")))
+         "/nextcloud/documents/org/roam/bib.bib")))
 
 (setq org-cite-csl-styles-dir
       (concat
@@ -188,10 +246,18 @@ belongs as a list."
 
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 
-(setq user-full-name "Chu the Pup"
-      user-mail-address "chufilthymutt@gmail.com")
+(with-eval-after-load 'org
+  (setq org-agenda-files '("~/nextcloud/documents/org/roam/20221004221829-todo.org"
+                           "~/nextcloud/documents/org/roam/20220823133453-precalculus_algebra.org"
+                           "~/nextcloud/documents/org/roam/20220826102101-chem_1110.org"
+                           "~/nextcloud/documents/org/roam/20220726210346-important_dates.org"
+                           "~/nextcloud/documents/org/roam/20221004222235-notes.org"
+                           "~/nextcloud/documents/org/roam/20221004222230-journal.org"
+                           "~/nextcloud/documents/org/roam/20221004222226-projects.org"
+                           "~/nextcloud/documents/org/roam/20220822103202-engl_1020.org"
+                           "~/nextcloud/documents/org/roam/20221002161620-my_conlang.org")))
 
-(set-frame-parameter (selected-frame) 'alpha 98)
+(set-frame-parameter (selected-frame) 'alpha 100)
 
 (setq image-use-external-converter t)
 
@@ -223,3 +289,21 @@ belongs as a list."
 (setq ledger-schedule-file "~/nextcloud/documents/ledger/ledger-schedule.ledger")
 
 (achievements-mode)
+
+(defun get-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789.-")
+  (or (looking-at "[0123456789.-]+")
+      (error "No number at point"))
+  (string-to-number (match-string 0)))
+
+(defun round-number-at-point-to-decimals (decimal-count)
+  (interactive "NDecimal count: ")
+  (let ((mult (expt 10 decimal-count)))
+    (replace-match (number-to-string
+              (/
+               (fround
+                (*
+                 mult
+                 (get-number-at-point)))
+                mult)))))

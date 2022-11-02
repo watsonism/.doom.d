@@ -60,6 +60,10 @@
 ;(unpin! t)
 #+end_src
 ** Chu's package(s)
+*** firefox-protocol
+#+begin_src elisp
+;; (package! helm-firefox)
+#+end_src
 *** my elisp packages
 #+begin_src emacs-lisp
 (package! firefox-lock-deleter
@@ -113,14 +117,18 @@ Leverage Pandoc to convert selected file types to org.
 #+end_src
 *** Geiser
 Geiser is used to interact with Scheme Lisp languages more easily.
+
 Enable schemes in ~/.doom.d/init.el
+
+(No need to enable w/ doom emacs)
+
 #+begin_src emacs-lisp
 ;;(package! geiser)
 #+end_src
 **** Geiser macro stepper
 Allows for macro stepping in Geiser.
 #+begin_src emacs-lisp
-;;(package! macrostep-geiser)
+(package! macrostep-geiser)
 #+end_src
 *** Add Structure and Interpretations of Computer Programs to the info menu
 It's a book
@@ -164,25 +172,17 @@ nov.el provides a major mode for reading EPUB documents (pdfs still work better)
 #+end_src
 *** csv-mode for csv file support
 #+begin_src emacs-lisp
-;;(package! csv-mode)
-#+end_src
-*** grammarly
-#+begin_src emacs-lisp
-;;(package! grammarly)
-#+end_src
-**** grammarly in emacs w/ flycheck
-#+begin_src emacs-lisp
-;;(package! flycheck-grammarly)
-#+end_src
-**** grammarly in eamcs w/ flymake
-#+begin_src emacs-lisp
-;;(package! flymake-grammarly)
+(package! csv-mode)
 #+end_src
 *** skeletor - project skeletons
 #+begin_src emacs-lisp
-;;(package! skeletor)
+(package! skeletor)
 #+end_src
 *** simple-httpd
 #+begin_src emacs-lisp
 (package! simple-httpd)
+#+end_src
+*** org-drill
+#+begin_src elisp
+(package! org-drill)
 #+end_src

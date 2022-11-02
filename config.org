@@ -79,34 +79,14 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
 (setq user-full-name "John Doe"
       user-mail-address "example@donut.arpa")
 #+end_example
-
 ** My Config
-
 *** Private Configuration
-
 #+begin_src emacs-lisp
 (setq user-full-name "Chu the Pup"
       user-mail-address "chufilthymutt@gmail.com")
 #+end_src
 
-*** Trash instead of delete
-
-#+begin_src emacs-lisp
-(setq delete-by-moving-to-trash t)
-#+end_src
-
-*** IRC (ERC)
-
-Set user information:
-
-#+begin_src elisp :results none
-(setq erc-server "localhost"
-      erc-nick "chu"
-      erc-user-full-name "Chu the Pup")
-#+end_src
-
 *** EMMS
-
 #+begin_src emacs-lisp
 (setq emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
 #+end_src
@@ -114,22 +94,26 @@ Set user information:
 #+begin_src emacs-lisp
 (setq emms-source-file-default-directory "~/Music/")
 #+end_src
+*** IRC (ERC)
+Set user information.
 
+#+begin_src elisp :results none
+(setq erc-server "localhost"
+      erc-nick "chu"
+      erc-user-full-name "Chu the Pup")
+#+end_src
+*** Trash instead of delete
+#+begin_src emacs-lisp
+(setq delete-by-moving-to-trash t)
+#+end_src
 *** Org-Mode
-
-**** Custom org-todo-keywords keywords
-
+**** Custom org-todo-keywords
 #+begin_src emacs-lisp
 (setq org-todo-keywords
        '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "HABIT(H)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
-
-**** Fix DOOM Emacs org-fold issue :patch:
-#+begin_example emacs-lisp
-(setq org-fold-core-style 'overlays)
-#+end_example
 **** Hide emphasis markup (e.g. '/...'/ for italics, for bold, etc)
 #+begin_example emacs-lisp
 (setq org-hide-emphasis-markers nil)

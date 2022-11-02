@@ -156,6 +156,27 @@ Set user information.
           "*** %?%i%a" :prepend t))))
 #+end_src
 
+
+**** Custom org directories and files :org:
+
+If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
+
+***** Custom org root directory :org:
+
+The following will vary, so change it to be whatever your bookmarks file is/what you want it to be.
+
+I use a directory that I sync between computers with a nextcloud server I run but you don't necessarily have to do that.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  (setq org-directory
+        (concat
+         (getenv "HOME")
+        "/nextcloud/documents/org/")))
+#+end_src
+
+***** Custom org bookmark directory :org:
+
 The following will vary, so change it to be whatever your bookmarks file is/what you want it to be.
 
 I use a document that I track with org roam but you don't necessarily have to do that.
@@ -168,20 +189,8 @@ I use a document that I track with org roam but you don't necessarily have to do
          "/nextcloud/documents/org/roam/20221004090130-bookmarks.org")))
 #+end_src
 
-#+RESULTS:
-: /home/chu/nextcloud/documents/org/roam/20221004090130-bookmarks.org
+***** Custom org agenda file :org:
 
-**** Custom org directories and files :org:
-If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
-**** Custom org root directory :org:
-#+begin_src emacs-lisp
-(with-eval-after-load 'org
-  (setq org-directory
-        (concat
-         (getenv "HOME")
-        "/nextcloud/documents/org/")))
-#+end_src
-**** Custom org agenda file :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-agenda-files
@@ -191,10 +200,7 @@ If you use `org' and don't want your org files in the default location below, ch
           "/nextcloud/documents/org/roam/20221004222223-agenda.org"))))
 #+end_src
 
-#+RESULTS:
-| /home/chu/nextcloud/documents/org/roam/20221004222223-agenda.org |
-
-**** Custom org journal file location :org:
+***** Custom org journal file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-journal-file
@@ -202,7 +208,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004222230-journal.org")))
 #+end_src
-**** Custom org notes file location :org:
+***** Custom org notes file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-notes-file
@@ -210,7 +216,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004222235-notes.org")))
 #+end_src
-**** Custom org projects file location :org:
+***** Custom org projects file location :org:
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq +org-capture-projects-file
@@ -218,7 +224,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004222226-projects.org")))
 #+end_src
-**** Custom org todo file location :org:
+***** Custom org todo file location :org:
 #+begin_src elisp
 (with-eval-after-load 'org
   (setq +org-capture-todo-file
@@ -226,7 +232,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/20221004221829-todo.org")))
 #+end_src
-**** Org roam v2 directories and files
+***** Org roam v2 directories and files
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
   (setq org-roam-directory
@@ -234,22 +240,22 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/")))
 #+end_src
-**** Org id custom id location
+***** Org id custom id location
 #+begin_src emacs-lisp
 (setq org-id-locations-file
       (concat
        (getenv "HOME")
        "/nextcloud/documents/org/.orgids"))
 #+end_src
-**** Org-attach custom directory
+***** Org-attach custom directory
 #+begin_src emacs-lisp
 (setq org-attach-id-dir
       (concat
        (getenv "HOME")
        "/nextcloud/documents/org/.attach/"))
 #+end_src
-**** Org-Cite (oc.el)
-***** Org-Cite (oc.el) bibliography
+***** Org-Cite (oc.el)
+****** Org-Cite (oc.el) bibliography location
 #+begin_src emacs-lisp
 (setq! org-cite-global-bibliography
        (list
@@ -257,7 +263,7 @@ If you use `org' and don't want your org files in the default location below, ch
          (getenv "HOME")
          "/nextcloud/documents/org/roam/bib.bib")))
 #+end_src
-***** Org-Cite (oc.el) CiteProc Formatter File Directory
+****** Org-Cite (oc.el) CiteProc formatter file directory location
 Citation Style Language!
 #+begin_src emacs-lisp
 (setq org-cite-csl-styles-dir
@@ -265,7 +271,7 @@ Citation Style Language!
        (getenv "HOME")
        "/nextcloud/documents/org/latex/citeproc-formatters/"))
 #+end_src
-**** Citar bibliography
+***** Citar bibliography location
 #+begin_src emacs-lisp
 (setq citar-bibliography
        (list

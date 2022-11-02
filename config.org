@@ -89,20 +89,24 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
       user-mail-address "chufilthymutt@gmail.com")
 #+end_src
 
-*** EXWM
-#+begin_example emacs-lisp
-(require 'exwm)
-(require 'exwm-config)
-(exwm-enable)
-(require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(0 "DisplayPort-0" 1 "DisplayPort-1" 2 "HDMI-A-1"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output DisplayPort-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DisplayPort-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-A-0 --off --output HDMI-A-1 --mode 1920x1080 --pos 3840x0 --rotate left")))
-(exwm-randr-enable)
-#+end_example
+*** Trash instead of delete
+
+#+begin_src emacs-lisp
+(setq delete-by-moving-to-trash t)
+#+end_src
+
+*** IRC (ERC)
+
+Set user information:
+
+#+begin_src elisp :results none
+(setq erc-server "localhost"
+      erc-nick "chu"
+      erc-user-full-name "Chu the Pup")
+#+end_src
+
 *** EMMS
+
 #+begin_src emacs-lisp
 (setq emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
 #+end_src
@@ -111,43 +115,17 @@ Some functionality uses this to identify you, e.g. GPG configuration, email clie
 (setq emms-source-file-default-directory "~/Music/")
 #+end_src
 
-*** IRC
-**** ERC
-Set user information.
-#+begin_src elisp :results none
-(setq erc-server "localhost"
-      erc-nick "chu"
-      erc-user-full-name "Chu the Pup")
-#+end_src
-
-Stop ERC pop-ups.
-
-#+begin_example
-,#+begin_src emacs-lisp :results none
-(with-eval-after-load 'erc
-  (setq erc-join-buffer 'bury))
-,#+end_src
-#+end_example
-
-#+begin_example
-,#+begin_src emacs-lisp :results none
-(with-eval-after-load 'erc
-  (setq erc-auto-query 'bury))
-,#+end_src
-#+end_example
-*** Dired
-*** Trash instead of delete
-#+begin_src emacs-lisp
-(setq delete-by-moving-to-trash t)
-#+end_src
 *** Org-Mode
-**** add custom org-todo-keywords
+
+**** Custom org-todo-keywords keywords
+
 #+begin_src emacs-lisp
 (setq org-todo-keywords
        '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "HABIT(H)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
+
 **** Fix DOOM Emacs org-fold issue :patch:
 #+begin_example emacs-lisp
 (setq org-fold-core-style 'overlays)

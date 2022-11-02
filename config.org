@@ -114,14 +114,6 @@ Set user information.
          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
-**** Hide emphasis markup (e.g. '/...'/ for italics, for bold, etc)
-#+begin_example emacs-lisp
-(setq org-hide-emphasis-markers nil)
-#+end_example
-but I prefer this function & binding by Micah Elliott with modifications/suggestions by A. Blizzard in response to Lesley Lai.
-#+begin_example emacs-lisp
-(define-key org-mode-map (kbd "C-c e") 'visible-mode)
-#+end_example
 **** Make Org mode look nicer
 #+begin_src emacs-lisp
 (require 'org-bullets)

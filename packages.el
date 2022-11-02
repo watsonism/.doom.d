@@ -76,7 +76,7 @@
 
 ;;(package! geiser)
 
-;;(package! macrostep-geiser)
+(package! macrostep-geiser)
 
 (package! sicp)
 
@@ -96,9 +96,9 @@
 
 (package! achievements)
 
-;;(package! csv-mode)
+(package! csv-mode)
 
-;;(package! skeletor)
+(package! skeletor)
 
 (package! simple-httpd)
 
